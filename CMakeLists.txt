@@ -7,7 +7,7 @@ if("$ENV{CC}" MATCHES ".*mingw32.*")
     set(UNIX OFF CACHE BOOL "Unset UNIX for all CMake files")
 endif()
 
-project(c-start LANGUAGES C)
+project(prexy LANGUAGES C)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

@@ -20,7 +20,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
 
         # Final derivation including any overrides made to output package
-        inherit (self.packages.${system}) c-start;
+        inherit (self.packages.${system}) prexy;
 
         devPkgs = with pkgs; [
           shfmt
@@ -39,24 +39,24 @@
         };
       in {
         packages = {
-          c-start = pkgs.callPackage ./. {
+          prexy = pkgs.callPackage ./. {
             stdenv = pkgs.clangStdenv;
           };
 
-          c-start-gcc = c-start.override {
+          prexy-gcc = prexy.override {
             inherit (pkgs) stdenv;
           };
 
-          c-start-win = c-start.override {
+          prexy-win = prexy.override {
             inherit (pkgs.pkgsCross.mingwW64) stdenv;
           };
 
-          default = c-start;
+          default = prexy;
         };
 
         devShells = {
           default = pkgs.mkShell {
-            inputsFrom = [c-start];
+            inputsFrom = [prexy];
             nativeBuildInputs = devPkgs;
             shellHook = ''
               source dev_shell.sh

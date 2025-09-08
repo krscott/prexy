@@ -1,4 +1,4 @@
-# c-start
+# prexy
 
 My rather opinionated C project template.
 

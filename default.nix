@@ -4,7 +4,7 @@
   stdenv,
 }:
 stdenv.mkDerivation {
-  name = "c-start";
+  name = "prexy";
   src = lib.cleanSource ./.;
 
   nativeBuildInputs = [cmake];

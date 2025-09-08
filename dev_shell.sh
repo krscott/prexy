@@ -29,7 +29,7 @@ run() {
         set -eu
 
         bld
-        ./build/src/c-start "$@"
+        ./build/src/prexy "$@"
     )
 }
 
