@@ -1,5 +1,4 @@
 #include "prexy.h"
-#include <stdio.h>
 
 prexy enum error {
     // Ok
@@ -13,8 +12,14 @@ enum prexy_not
     FOO,
 };
 
+#define manual_x_variants(X)                                                   \
+    X(MANUAL_A)                                                                \
+    X(MANUAL_B)
+
+prexy_enum(manual);
+
 int main(void)
 {
-    printf("Hello, World!\n");
-    return (int)OK;
+    static_assert(MANUAL_B == 1, "");
+    return (int)MANUAL_A;
 }

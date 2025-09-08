@@ -1,8 +1,15 @@
 #include "00_smoketest_prexy.h"
-#include <stdio.h>
+#include "prexy.h"
 
 #ifndef PREXY_00_SMOKETEST_H_
-#error "foo"
+#error "error"
+#endif
+#ifndef PREXY_H_
+#error "error"
 #endif
 
-int main(void) { printf("Hello, World!\n"); }
+int main(void)
+{
+    assert(1);
+    return 0;
+}
