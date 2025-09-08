@@ -1,11 +1,5 @@
 #!/usr/bin/env -S awk -f
 
-function error(msg) {
-    print "error: " > "/dev/stderr"
-    print "#error \"prexy: " msg "\""
-    exit 1
-}
-
 BEGIN {
     IDLE = 0
     COLLECT = 1
@@ -50,22 +44,45 @@ state == COLLECT {
 }
 state == COLLECT && /};/ {
     state = IDLE
-    count = 0
-    if (match(code, /^prexy enum ([[:alnum:]_]+) {(.*)};$/, m)) {
-        name = m[1]
-        split(m[2], variants, ",")
-        print "#define " name "_x_variants(X) \\"
-        for (i in variants) {
-            if (match(variants[i], /^[[:space:]]+([[:alnum:]_]+)/, m)) {
-                ++count
-                print "X(" m[1] ") \\"
-            }
+
+    split("", data)
+    if (parse_enum(code, data)) {
+        print "#define " data["name"] "_x_count " data["count"]
+        print "#define " data["name"] "_x_variants(X) \\"
+        for (i in data["variants"]) {
+            print "X(" data["variants"][i] ") \\"
         }
         print ""
-        print "#define " name "_x_count " count
     } else {
         error("Unknown structure type")
     }
 
     print ""
 }
+
+function parse_enum(code, data) {
+    if (!match(code, /^prexy enum ([[:alnum:]_]+) {(.*)};$/, m)) {
+        return 0
+    }
+
+    data["name"] = m[1]
+
+    count = 0
+    split(m[2], variants, ",")
+    for (i in variants) {
+        if (match(variants[i], /^[[:space:]]+([[:alnum:]_]+)/, m)) {
+            data["variants"][count++] = m[1]
+        }
+    }
+
+    data["count"] = count
+
+    return 1
+}
+
+function error(msg) {
+    print "error: " > "/dev/stderr"
+    print "#error \"prexy: " msg "\""
+    exit 1
+}
+

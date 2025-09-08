@@ -1,15 +1,23 @@
+#include "01_enum_prexy.h"
 #include "prexy.h"
 
-prexy enum error {
-    // Ok
-    OK = 0,
-    // bad
-    ERR,
+prexy enum foo {
+    bar,
+    baz = 10,
+};
+
+prexy enum Bool {
+    // False
+    False,
+    // True
+    True,
+    // What is Truth?
+    FileNotFound
 };
 
 enum prexy_not
 {
-    FOO,
+    WAT,
 };
 
 #define manual_x_variants(X)                                                   \
@@ -21,5 +29,6 @@ prexy_enum(manual);
 int main(void)
 {
     static_assert(MANUAL_B == 1, "");
+    static_assert(FileNotFound + 1 == Bool_x_count, "");
     return (int)MANUAL_A;
 }
