@@ -62,7 +62,9 @@ debug() {
 }
 
 verbose() {
-    [[ -n $verbose ]] && set -x
+    if [[ -n $verbose ]]; then
+        set -x
+    fi
 }
 
 test_dir="../build/test"
@@ -72,12 +74,22 @@ mkdir -p "$test_dir"
 cp ./*.c "$test_dir"
 
 for file in *.c; do
-    test_name="${file%.c}"
-    bin="$test_dir/$test_name"
+    (
+        test_name="${file%.c}"
+        bin="$test_dir/$test_name"
 
-    echo "Test: $test_name"
+        echo "Test: $test_name"
 
-    $PREXY "$file" | clang-format >"${test_name}_prexy.h"
-    $CC -Wall -Wextra -pedantic -Werror "$file" -o "$bin"
-    ./"$bin" >/dev/null
+        verbose
+
+        $PREXY "$file" | clang-format >"${test_name}_prexy.h"
+        $CC -Wall -Wextra -pedantic -Werror "$file" -o "$bin"
+        ./"$bin" >/dev/null
+    )
 done
+
+echo ""
+echo "Tests passed"
+echo ""
+
+git diff --exit-code -- *.h

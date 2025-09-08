@@ -46,6 +46,14 @@ crun() {
     )
 }
 
+tst() {
+    (
+        set -eux
+
+        PREXY=stage1/prexy.awk ./test/test.sh "$@"
+    )
+}
+
 release() {
     unset DISABLE_OPTIMZATIONS
     unset CMAKE_BUILD_TYPE
