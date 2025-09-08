@@ -1,3 +1,7 @@
+stage1() {
+    awk -f stage1/prexy.awk "$@"
+}
+
 cfg() {
     (
         set -eu
