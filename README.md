@@ -1,8 +1,6 @@
 # prexy
 
-My rather opinionated C project template.
-
-Don't forget to change the LICENSE.
+A pre-pre-processor tool for generating X-macros for C.
 
 ## Development
 

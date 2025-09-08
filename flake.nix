@@ -39,6 +39,8 @@
         };
       in {
         packages = {
+          prexy-stage1 = pkgs.callPackage ./stage1 {};
+
           prexy = pkgs.callPackage ./. {
             stdenv = pkgs.clangStdenv;
           };

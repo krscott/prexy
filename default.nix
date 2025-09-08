@@ -4,7 +4,8 @@
   stdenv,
 }:
 stdenv.mkDerivation {
-  name = "prexy";
+  pname = "prexy";
+  version = builtins.readFile ./version.txt;
   src = lib.cleanSource ./.;
 
   nativeBuildInputs = [cmake];
