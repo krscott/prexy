@@ -26,7 +26,8 @@
         name##_x_fields(PREXY_STRUCT_FIELD)                                    \
     }
 
-// Markers
+// Pre-processor marker macro
+
 #define prexy
 
 #endif
