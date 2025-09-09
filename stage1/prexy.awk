@@ -45,23 +45,35 @@ state == COLLECT {
 state == COLLECT && /};/ {
     state = IDLE
 
+    code = strip(code)
+
     split("", data)
     if (parse_enum(code, data)) {
         print "#define " data["name"] "_x_count " data["count"]
         print "#define " data["name"] "_x_variants(X) \\"
-        for (i in data["variants"]) {
+        for (i = 0; i < data["count"]; ++i) {
             print "X(" data["variants"][i] ") \\"
         }
-        print ""
+    } else if (parse_struct(code, data)) {
+        print "#define " data["name"] "_x_fields(F) \\"
+        for (i = 0; i < data["count"]; ++i) {
+            printf "F("
+            printf data["fields"][i]["metatype"] ", " data["fields"][i]["type"] ", " data["fields"][i]["name"]
+            if (data["fields"][i]["length"]) {
+                printf ", " data["fields"][i]["length"]
+            }
+            print ") \\"
+        }
     } else {
         error("Unknown structure type")
     }
 
     print ""
+    print ""
 }
 
 function parse_enum(code, data) {
-    if (!match(code, /^prexy enum ([[:alnum:]_]+) {(.*)};$/, m)) {
+    if (!match(code, /^prexy enum ([[:alnum:]_]+)[[:space:]]*{(.*)};$/, m)) {
         return 0
     }
 
@@ -70,7 +82,7 @@ function parse_enum(code, data) {
     count = 0
     split(m[2], variants, ",")
     for (i in variants) {
-        if (match(variants[i], /^[[:space:]]+([[:alnum:]_]+)/, m)) {
+        if (match(strip(variants[i]), /^([[:alnum:]_]+)/, m)) {
             data["variants"][count++] = m[1]
         }
     }
@@ -80,9 +92,60 @@ function parse_enum(code, data) {
     return 1
 }
 
+function parse_struct(code, data) {
+    if (!match(code, /^prexy struct ([[:alnum:]_]+)[[:space:]]*{(.*)};$/, m)) {
+        print code
+        return 0
+    }
+
+    data["name"] = m[1]
+
+    count = 0
+    split(m[2], fields, ";")
+    for (i in fields) {
+        s = strip(fields[i])
+
+        data["fields"][count]["length"] = 0
+
+        if (match(s, /^(enum|struct)[[:space:]]+([[:alnum:]_]+)[[:space:]+]([[:alnum:]_]+)\[[[:space:]]*([[:alnum:]]+)[[:space:]]*\]$/, m)) {
+            data["fields"][count]["metatype"] = m[1] "_array"
+            data["fields"][count]["type"] = strip(m[2])
+            data["fields"][count]["name"] = strip(m[3])
+            data["fields"][count]["length"] = strip(m[4])
+            ++count
+        } else if (match(s, /^(enum|struct)[[:space:]]+([[:alnum:]_]+)[[:space:]+]([[:alnum:]_]+)$/, m)) {
+            data["fields"][count]["metatype"] = m[1]
+            data["fields"][count]["type"] = strip(m[2])
+            data["fields"][count]["name"] = strip(m[3])
+            ++count
+        } else if (match(s, /^([[:alnum:]_*[:space:]]+[[:space:]*])([[:alnum:]_]+)\[[[:space:]]*([[:alnum:]]+)[[:space:]]*\]$/, m)) {
+            data["fields"][count]["metatype"] = "simple_array"
+            data["fields"][count]["type"] = strip(m[1])
+            data["fields"][count]["name"] = strip(m[2])
+            data["fields"][count]["length"] = strip(m[3])
+            ++count
+        } else if (match(s, /^([[:alnum:]_*[:space:]]+[[:space:]*])([[:alnum:]_]+)$/, m)) {
+            data["fields"][count]["metatype"] = "simple"
+            data["fields"][count]["type"] = strip(m[1])
+            data["fields"][count]["name"] = strip(m[2])
+            ++count
+        }
+    }
+
+    data["count"] = count
+
+    return 1
+}
+
 function error(msg) {
-    print "error: " > "/dev/stderr"
+    print "error: " msg > "/dev/stderr"
     print "#error \"prexy: " msg "\""
     exit 1
+}
+
+function strip(s) {
+    gsub(/^[[:space:]]+/, "", s)
+    gsub(/[[:space:]]+$/, "", s)
+    return s
 }
 
