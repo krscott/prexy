@@ -31,6 +31,7 @@ prexy struct nested
 {
     struct simples head;
     struct simples tail[11];
+    struct simples *simple_ref;
 };
 
 #define manual_struct_x_fields(F)                                              \

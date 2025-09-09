@@ -47,9 +47,11 @@
 // {
 //     struct simples head;
 //     struct simples tail[11];
+//     struct simples *simple_ref;
 // };
 #define nested_x_fields(F)                                                     \
     F(struct, simples, head)                                                   \
-    F(struct_array, simples, tail, 11)
+    F(struct_array, simples, tail, 11)                                         \
+    F(simple, struct simples *, simple_ref)
 
 #endif
