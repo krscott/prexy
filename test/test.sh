@@ -83,7 +83,7 @@ for file in *.c; do
         verbose
 
         $PREXY "$file" | clang-format >"${test_name}_prexy.h"
-        $CC -Wall -Wextra -pedantic -Werror -I../src/include "$file" -o "$bin"
+        $CC -Wall -Wextra -pedantic -Werror -I../include "$file" -o "$bin"
         ./"$bin" >/dev/null
     )
 done
