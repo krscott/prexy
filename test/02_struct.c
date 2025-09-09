@@ -1,5 +1,6 @@
 #include "02_struct_prexy.h"
 #include "prexy.h"
+#include <assert.h>
 
 prexy struct simples
 {
@@ -40,7 +41,7 @@ prexy struct nested
     F(enum_array, nums, nn, 2)                                                 \
     F(struct, simples, some)                                                   \
     F(struct_array, nested, others, 3)
-x_struct(manual_struct);
+prexy_struct(manual_struct);
 
 int main(void)
 {

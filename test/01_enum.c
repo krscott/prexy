@@ -1,5 +1,6 @@
 #include "01_enum_prexy.h"
 #include "prexy.h"
+#include <assert.h>
 
 prexy enum foo {
     bar,
