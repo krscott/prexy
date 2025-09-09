@@ -1,1 +1,1 @@
-(struct bagel){ .name = { 'e', 'v', 'e', 'r', 'y', 't', 'h', 'i', 'n', 'g', }, .price = 5.990000, .cheeses = { (struct cheese){ .kind = CHEDDAR, .is_melty = 1, }, (struct cheese){ .kind = SWISS, .is_melty = 0, }, (struct cheese){ .kind = BRIE, .is_melty = 0, }, }, }
+(struct bagel){ .name = { 'e', 'v', 'e', 'r', 'y', 't', 'h', 'i', 'n', 'g', }, .price = 1.990000, .cheeses = { (struct cheese){ .kind = CHEDDAR, .is_melty = 1, }, (struct cheese){ .kind = SWISS, .is_melty = 0, }, (struct cheese){ .kind = BRIE, .is_melty = 0, }, }, }

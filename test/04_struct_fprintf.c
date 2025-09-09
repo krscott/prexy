@@ -30,7 +30,7 @@ int main(void)
 {
     struct bagel bagel = {
         .name = "everything",
-        .price = 5.99,
+        .price = 1.99,
         .cheeses =
             {
                 {.kind = CHEDDAR, .is_melty = true},
