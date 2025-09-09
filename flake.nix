@@ -71,6 +71,9 @@
             ./format.sh
             alejandra ./*.nix
           '';
+          test = mkApp ''
+            PREXY=stage1/prexy.awk ./test/test.sh
+          '';
         };
 
         formatter = pkgs.alejandra;
