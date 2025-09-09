@@ -86,7 +86,7 @@
     }
 
 #define PREXY_STRUCT_FPRINT_REPR(fkind, ...)                                   \
-    PREXY_STRUCT_FPRINT_REPR_##fkind(__VA_ARGS__);
+    PREXY_STRUCT_FPRINT_REPR_##fkind(__VA_ARGS__)
 
 #define prexy_struct_fprint_repr_decl(name)                                    \
     void name##_fprint_repr(FILE *stream, struct name const *x)
@@ -94,7 +94,9 @@
     prexy_struct_fprint_repr_decl(name)                                        \
     {                                                                          \
         fprintf(stream, "(struct " #name "){ ");                               \
-        name##_x_fields(PREXY_STRUCT_FPRINT_REPR) fprintf(stream, "}");        \
+        name##_x_fields(PREXY_STRUCT_FPRINT_REPR)                              \
+                                                                               \
+            fprintf(stream, "}");                                              \
     }                                                                          \
     static_assert(1, "")
 
