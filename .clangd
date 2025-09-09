@@ -5,3 +5,7 @@ CompileFlags:
 
   Add:
     - -Wno-unused-macros
+
+Diagnostics:
+  # MissingIncludes: Strict
+  UnusedIncludes: None

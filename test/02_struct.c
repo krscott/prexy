@@ -1,5 +1,4 @@
 #include "02_struct_prexy.h"
-#include "prexy.h"
 #include <assert.h>
 
 prexy struct simples

@@ -1,5 +1,5 @@
 #include "03_enum_to_cstr_prexy.h"
-#include "prexy.h"
+#include <assert.h>
 #include <string.h>
 
 prexy enum tst3 {
