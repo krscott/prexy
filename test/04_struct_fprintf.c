@@ -39,5 +39,5 @@ int main(void)
             },
     };
 
-    bagel_fprint_repr(stderr, &bagel);
+    bagel_fprint_repr(stdout, &bagel);
 }

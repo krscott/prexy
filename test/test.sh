@@ -84,11 +84,11 @@ for file in *.c; do
 
         $PREXY "$file" | clang-format >"${test_name}_prexy.h"
         $CC -Wall -Wextra -pedantic -Werror -I../include "$file" -o "$bin"
-        ./"$bin" >/dev/null
+        ./"$bin" >"$file.stdout"
     )
 done
 
-git diff --exit-code -- *.h
+git diff --exit-code -- *.h *.stdout
 
 echo ""
 echo "Tests passed"
