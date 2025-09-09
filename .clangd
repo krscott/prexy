@@ -1,11 +1,5 @@
 CompileFlags:
-
-  # compile_commands.json copied here by dev_shell.sh bld()
+  # compile_commands.json copied here by dev_shell.sh bld
   CompilationDatabase: ".compile-db"
-
   Add:
     - -Wno-unused-macros
-
-Diagnostics:
-  # MissingIncludes: Strict
-  UnusedIncludes: None
