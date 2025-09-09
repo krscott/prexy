@@ -3,5 +3,6 @@
 
 #include "prexy_core.h"
 #include "prexy_enum_to_cstr.h"
+#include "prexy_struct_fprintf.h"
 
 #endif
