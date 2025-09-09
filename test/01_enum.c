@@ -20,11 +20,11 @@ enum prexy_not
     WAT,
 };
 
-#define manual_x_variants(X)                                                   \
+#define manual_enum_x_variants(X)                                              \
     X(MANUAL_A)                                                                \
     X(MANUAL_B)
 
-prexy_enum(manual);
+prexy_enum(manual_enum);
 
 int main(void)
 {

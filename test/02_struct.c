@@ -33,6 +33,15 @@ prexy struct nested
     struct simples tail[11];
 };
 
+#define manual_struct_x_fields(F)                                              \
+    F(simple, float, f)                                                        \
+    F(simple_array, char, str, 10)                                             \
+    F(enum, nums, n)                                                           \
+    F(enum_array, nums, nn, 2)                                                 \
+    F(struct, simples, some)                                                   \
+    F(struct_array, nested, others, 3)
+x_struct(manual_struct);
+
 int main(void)
 {
     //
