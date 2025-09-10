@@ -20,4 +20,10 @@
     F(strattr, char const *, buf, .is_cstr = true)                             \
     F(simple, size_t, len)
 
+// prexy struct messages
+// {
+//     struct cstr buf[5];
+// };
+#define messages_x_fields(F) F(struct_array, cstr, buf, 5)
+
 #endif

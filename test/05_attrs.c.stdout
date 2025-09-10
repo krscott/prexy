@@ -1,1 +1,3 @@
 (struct cstr){ .buf = "Hello, World!", .len = 13, }
+
+(struct messages){ .buf = { (struct cstr){ .buf = "never", .len = 5, }, (struct cstr){ .buf = "gonna", .len = 5, }, (struct cstr){ .buf = "give", .len = 4, }, (struct cstr){ .buf = "you", .len = 3, }, (struct cstr){ .buf = "up", .len = 2, }, }, }
