@@ -9,7 +9,7 @@
         fprintf(stream, "." #varname " = \"%s\", ", (x)->varname);             \
     }
 
-prexy_tag format_as_str;
+prexy_tag(format_as_str);
 
 prexy struct cstr
 {

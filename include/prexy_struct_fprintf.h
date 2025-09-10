@@ -100,11 +100,10 @@
     static_assert(1, "")
 #define prexy_struct_fprint_repr_impl(name)                                    \
     prexy_struct_fprint_repr_impl_x(name, name##_x_fields)
-#define prexy_struct_fprint_repr_impl_tag(name, tag)                           \
-    prexy_struct_fprint_repr_impl_x(name, name##_x_fields_##tag);              \
-    static_assert(sizeof(tag), "")
 #define prexy_struct_fprint_repr_impl_attr(name, attr)                         \
     prexy_struct_fprint_repr_impl_x(name, name##_x_fields_##attr);             \
     static_assert(sizeof(*(struct attr *)0), "")
+#define prexy_struct_fprint_repr_impl_tag(name, tag)                           \
+    prexy_struct_fprint_repr_impl_attr(name, tag)
 
 #endif
