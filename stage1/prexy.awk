@@ -98,8 +98,11 @@ function parse_struct(code, data) {
     }
 
     data["name"] = m[1]
+
+    # Clear arrays
     split("", data["attrs"])
     split("", data["fields"])
+    split("", attr_exists)
 
     field_count = 0
     attr_count = 1  # attr 0 is implicit "no-attributes" attr
@@ -112,7 +115,11 @@ function parse_struct(code, data) {
 
         if (match(s, /^px_attr\([[:space:]]*([[:alnum:]_]+),[[:space:]]+(.*)\)$/, m)) {
             # attribute
-            data["attrs"][attr_count++] = m[1]
+            if (!attr_exists[m[1]]) {
+                attr_exists[m[1]] = 1
+                data["attrs"][attr_count] = m[1]
+                ++attr_count
+            }
             data["fields"][field_count]["attrs"][m[1]] = m[2]
         } else if (match(s, /^(enum|struct)[[:space:]]+([[:alnum:]_]+)[[:space:]+]([[:alnum:]_]+)\[[[:space:]]*([[:alnum:]]+)[[:space:]]*\]$/, m)) {
             # array of enums or structs
