@@ -1,3 +1,3 @@
-(struct cstr){ .buf = "Hello, World!", .ptr = 0x5618e964d004, .len = 13, }
+(struct cstr){ .buf = "Hello, World!", .ptr = (pointer), .len = 13, }
 
-(struct messages){ .buf = { (struct cstr){ .buf = "never", .ptr = 0x5618e964d015, .len = 5, }, (struct cstr){ .buf = "gonna", .ptr = 0x5618e964d01b, .len = 5, }, (struct cstr){ .buf = "give", .ptr = 0x5618e964d021, .len = 4, }, (struct cstr){ .buf = "you", .ptr = 0x5618e964d026, .len = 3, }, (struct cstr){ .buf = "up", .ptr = 0x5618e964d02a, .len = 2, }, }, }
+(struct messages){ .buf = { (struct cstr){ .buf = "never", .ptr = (pointer), .len = 5, }, (struct cstr){ .buf = "gonna", .ptr = (pointer), .len = 5, }, (struct cstr){ .buf = "give", .ptr = (pointer), .len = 4, }, (struct cstr){ .buf = "you", .ptr = (pointer), .len = 3, }, (struct cstr){ .buf = "up", .ptr = (pointer), .len = 2, }, }, }

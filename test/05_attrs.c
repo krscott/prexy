@@ -15,11 +15,7 @@
         }                                                                      \
         else                                                                   \
         {                                                                      \
-            fprintf(                                                           \
-                stream,                                                        \
-                "." #varname " = %p, ",                                        \
-                (void const *)(x)->varname                                     \
-            );                                                                 \
+            fprintf(stream, "." #varname " = (pointer), ");                    \
         }                                                                      \
     }
 
