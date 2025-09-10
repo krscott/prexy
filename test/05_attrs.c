@@ -23,6 +23,10 @@
         }                                                                      \
     }
 
+struct fooattr
+{
+    int foo;
+};
 struct strattr
 {
     bool is_cstr;
@@ -33,6 +37,7 @@ prexy struct cstr
     px_attr(strattr, .is_cstr = true);
     char const *buf;
 
+    px_attr(fooattr, 0);
     px_attr(strattr, 0);
     char const *ptr;
 
