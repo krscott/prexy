@@ -31,6 +31,7 @@
 // Pre-processor marker macro
 
 #define prexy
+#define px_tag(name)
 #define px_attr(name, ...) static_assert(sizeof((struct name){__VA_ARGS__}), "")
 
 #endif
