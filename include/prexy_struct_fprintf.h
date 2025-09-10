@@ -90,14 +90,18 @@
 
 #define prexy_struct_fprint_repr_decl(name)                                    \
     void name##_fprint_repr(FILE *stream, struct name const *x)
-#define prexy_struct_fprint_repr_impl(name)                                    \
+#define prexy_struct_fprint_repr_impl_x(name, FIELDS_X)                        \
     prexy_struct_fprint_repr_decl(name)                                        \
     {                                                                          \
         fprintf(stream, "(struct " #name "){ ");                               \
-        name##_x_fields(PREXY_STRUCT_FPRINT_REPR)                              \
-                                                                               \
-            fprintf(stream, "}");                                              \
+        FIELDS_X(PREXY_STRUCT_FPRINT_REPR)                                     \
+        fprintf(stream, "}");                                                  \
     }                                                                          \
     static_assert(1, "")
+#define prexy_struct_fprint_repr_impl(name)                                    \
+    prexy_struct_fprint_repr_impl_x(name, name##_x_fields)
+#define prexy_struct_fprint_repr_impl_attr(name, attr)                         \
+    prexy_struct_fprint_repr_impl_x(name, name##_x_fields_##attr);             \
+    static_assert(sizeof(*(struct attr *)0), "")
 
 #endif

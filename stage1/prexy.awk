@@ -56,21 +56,40 @@ state == COLLECT && /};/ {
         for (i = 0; i < data["count"]; ++i) {
             print "X(" data["variants"][i] ") \\"
         }
+        print ""
     } else if (parse_struct(code, data)) {
-        print "#define " data["name"] "_x_fields(F) \\"
-        for (i = 0; i < data["count"]; ++i) {
-            printf "F("
-            printf data["fields"][i]["metatype"] ", " data["fields"][i]["type"] ", " data["fields"][i]["name"]
-            if (data["fields"][i]["length"]) {
-                printf ", " data["fields"][i]["length"]
+        for (i = 0; i < data["attr_count"]; ++i) {
+            attr_name = data["attrs"][i]
+
+            if (i == 0) {
+                print "#define " data["name"] "_x_fields(F) \\"
+            } else {
+                print "#define " data["name"] "_x_fields_" attr_name "(F) \\"
             }
-            print ") \\"
+
+            for (j = 0; j < data["field_count"]; ++j) {
+                field_attr = data["fields"][j]["attrs"][attr_name]
+                printf "F("
+                if (field_attr != "") {
+                    printf attr_name
+                } else {
+                    printf data["fields"][j]["metatype"]
+                }
+                printf ", " data["fields"][j]["type"] ", " data["fields"][j]["name"]
+                if (data["fields"][j]["length"]) {
+                    printf ", " data["fields"][j]["length"]
+                }
+                if (field_attr != "") {
+                    printf ", " data["fields"][j]["attrs"][attr_name]
+                }
+                print ") \\"
+            }
+            print ""
         }
     } else {
         error("Unknown structure type")
     }
 
-    print ""
     print ""
 }
 
@@ -101,40 +120,48 @@ function parse_struct(code, data) {
     }
 
     data["name"] = m[1]
+    split("", data["attrs"])
+    split("", data["fields"])
 
-    count = 0
+    field_count = 0
+    attr_count = 1  # attr 0 is implicit "no-attributes" attr
+
     split(m[2], fields, ";")
     for (i in fields) {
         s = strip(fields[i])
 
-        data["fields"][count]["length"] = 0
+        data["fields"][field_count]["length"] = 0
 
-        if (match(s, /^(enum|struct)[[:space:]]+([[:alnum:]_]+)[[:space:]+]([[:alnum:]_]+)\[[[:space:]]*([[:alnum:]]+)[[:space:]]*\]$/, m)) {
-            data["fields"][count]["metatype"] = m[1] "_array"
-            data["fields"][count]["type"] = strip(m[2])
-            data["fields"][count]["name"] = strip(m[3])
-            data["fields"][count]["length"] = strip(m[4])
-            ++count
+        if (match(s, /^px_attr\([[:space:]]*([[:alnum:]_]+),[[:space:]]+(.*)\)$/, m)) {
+            data["attrs"][attr_count++] = m[1]
+            data["fields"][field_count]["attrs"][m[1]] = m[2]
+        } else if (match(s, /^(enum|struct)[[:space:]]+([[:alnum:]_]+)[[:space:]+]([[:alnum:]_]+)\[[[:space:]]*([[:alnum:]]+)[[:space:]]*\]$/, m)) {
+            data["fields"][field_count]["metatype"] = m[1] "_array"
+            data["fields"][field_count]["type"] = strip(m[2])
+            data["fields"][field_count]["name"] = strip(m[3])
+            data["fields"][field_count]["length"] = strip(m[4])
+            ++field_count
         } else if (match(s, /^(enum|struct)[[:space:]]+([[:alnum:]_]+)[[:space:]+]([[:alnum:]_]+)$/, m)) {
-            data["fields"][count]["metatype"] = m[1]
-            data["fields"][count]["type"] = strip(m[2])
-            data["fields"][count]["name"] = strip(m[3])
-            ++count
+            data["fields"][field_count]["metatype"] = m[1]
+            data["fields"][field_count]["type"] = strip(m[2])
+            data["fields"][field_count]["name"] = strip(m[3])
+            ++field_count
         } else if (match(s, /^([[:alnum:]_*[:space:]]+[[:space:]*])([[:alnum:]_]+)\[[[:space:]]*([[:alnum:]]+)[[:space:]]*\]$/, m)) {
-            data["fields"][count]["metatype"] = "simple_array"
-            data["fields"][count]["type"] = strip(m[1])
-            data["fields"][count]["name"] = strip(m[2])
-            data["fields"][count]["length"] = strip(m[3])
-            ++count
+            data["fields"][field_count]["metatype"] = "simple_array"
+            data["fields"][field_count]["type"] = strip(m[1])
+            data["fields"][field_count]["name"] = strip(m[2])
+            data["fields"][field_count]["length"] = strip(m[3])
+            ++field_count
         } else if (match(s, /^([[:alnum:]_*[:space:]]+[[:space:]*])([[:alnum:]_]+)$/, m)) {
-            data["fields"][count]["metatype"] = "simple"
-            data["fields"][count]["type"] = strip(m[1])
-            data["fields"][count]["name"] = strip(m[2])
-            ++count
+            data["fields"][field_count]["metatype"] = "simple"
+            data["fields"][field_count]["type"] = strip(m[1])
+            data["fields"][field_count]["name"] = strip(m[2])
+            ++field_count
         }
     }
 
-    data["count"] = count
+    data["field_count"] = field_count
+    data["attr_count"] = attr_count
 
     return 1
 }

@@ -1,6 +1,8 @@
 #ifndef PREXY_CORE_H_
 #define PREXY_CORE_H_
 
+#include <assert.h>
+
 #define PREXY_ENUM_VARIANTS(x) x,
 
 #define prexy_enum(name)                                                       \
@@ -29,5 +31,6 @@
 // Pre-processor marker macro
 
 #define prexy
+#define px_attr(name, ...) static_assert(sizeof((struct name){__VA_ARGS__}), "")
 
 #endif
