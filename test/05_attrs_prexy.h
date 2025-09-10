@@ -7,28 +7,17 @@
 
 // prexy struct cstr
 // {
-//     px_attr(strattr, .is_cstr = true);
-//     char const *buf;
-//
-//     px_attr(fooattr, 0);
 //     px_attr(strattr, 0);
-//     char const *ptr;
+//     char const *buf;
 //
 //     size_t len;
 // };
 #define cstr_x_fields(F)                                                       \
     F(simple, char const *, buf)                                               \
-    F(simple, char const *, ptr)                                               \
     F(simple, size_t, len)
 
 #define cstr_x_fields_strattr(F)                                               \
-    F(strattr, char const *, buf, .is_cstr = true)                             \
-    F(strattr, char const *, ptr, 0)                                           \
-    F(simple, size_t, len)
-
-#define cstr_x_fields_fooattr(F)                                               \
-    F(simple, char const *, buf)                                               \
-    F(fooattr, char const *, ptr, 0)                                           \
+    F(strattr, char const *, buf, 0)                                           \
     F(simple, size_t, len)
 
 // prexy struct messages

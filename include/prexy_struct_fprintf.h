@@ -9,7 +9,7 @@
 #define PREXY_UTIL_SIMPLE_TYPE_FORMAT(x)                                       \
     (_Generic(                                                                 \
         (x),                                                                   \
-         bool: "%d",                                                           \
+         _Bool: "%d",                                                          \
          short: "%hd",                                                         \
          unsigned short: "%hu",                                                \
          int: "%d",                                                            \
