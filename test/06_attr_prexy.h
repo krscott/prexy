@@ -33,8 +33,8 @@
 
 // prexy struct messages
 // {
-//     struct cstr buf[5];
+//     struct cstr buf[6];
 // };
-#define messages_x_fields(F) F(struct_array, cstr, buf, 5)
+#define messages_x_fields(F) F(struct_array, cstr, buf, 6)
 
 #endif

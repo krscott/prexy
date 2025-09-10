@@ -4,24 +4,21 @@
 #include <stdio.h>
 #include <string.h>
 
-#define PREXY_STRUCT_FPRINT_REPR_strattr(type, varname, ...)                   \
+#define PREXY_STRUCT_FPRINT_REPR_format_as_str(type, varname)                  \
     {                                                                          \
         fprintf(stream, "." #varname " = \"%s\", ", (x)->varname);             \
     }
 
-struct strattr
-{
-    char dummy;
-};
+prexy_tag format_as_str;
 
 prexy struct cstr
 {
-    px_attr(strattr, 0);
+    px_tag(format_as_str);
     char const *buf;
 
     size_t len;
 };
-static prexy_struct_fprint_repr_impl_attr(cstr, strattr);
+static prexy_struct_fprint_repr_impl_tag(cstr, format_as_str);
 
 prexy struct messages
 {
@@ -47,11 +44,10 @@ int main(void)
     struct messages msgs = {
         .buf =
             {
-                make_cstr("never"),
-                make_cstr("gonna"),
-                make_cstr("give"),
-                make_cstr("you"),
-                make_cstr("up"),
+                make_cstr("quack"),
+                make_cstr("like"),
+                make_cstr("a"),
+                make_cstr("duck"),
             },
     };
     messages_fprint_repr(stdout, &msgs);

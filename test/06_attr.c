@@ -43,7 +43,7 @@ static prexy_struct_fprint_repr_impl_attr(cstr, strattr);
 
 prexy struct messages
 {
-    struct cstr buf[5];
+    struct cstr buf[6];
 };
 static prexy_struct_fprint_repr_impl(messages);
 

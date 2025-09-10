@@ -7,7 +7,7 @@
 
 // prexy struct cstr
 // {
-//     px_attr(strattr, 0);
+//     px_tag(format_as_str);
 //     char const *buf;
 //
 //     size_t len;
@@ -16,8 +16,8 @@
     F(simple, char const *, buf)                                               \
     F(simple, size_t, len)
 
-#define cstr_x_fields_strattr(F)                                               \
-    F(strattr, char const *, buf, 0)                                           \
+#define cstr_x_fields_format_as_str(F)                                         \
+    F(format_as_str, char const *, buf)                                        \
     F(simple, size_t, len)
 
 // prexy struct messages

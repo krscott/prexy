@@ -113,7 +113,15 @@ function parse_struct(code, data) {
 
         data["fields"][field_count]["length"] = 0
 
-        if (match(s, /^px_attr\([[:space:]]*([[:alnum:]_]+),[[:space:]]+(.*)\)$/, m)) {
+        if (match(s, /^px_tag\([[:space:]]*([[:alnum:]_]+)[[:space:]]*\)$/, m)) {
+            # tag (0-dimensional attribute)
+            if (!attr_exists[m[1]]) {
+                attr_exists[m[1]] = 1
+                data["attrs"][attr_count] = m[1]
+                ++attr_count
+            }
+            data["fields"][field_count]["tags"][m[1]] = 1
+        } else if (match(s, /^px_attr\([[:space:]]*([[:alnum:]_]+),[[:space:]]+(.*)\)$/, m)) {
             # attribute
             if (!attr_exists[m[1]]) {
                 attr_exists[m[1]] = 1
@@ -169,10 +177,11 @@ function print_struct(data) {
 
         for (j = 0; j < data["field_count"]; ++j) {
             field_attr = data["fields"][j]["attrs"][attr_name]
+            field_tag = data["fields"][j]["tags"][attr_name]
             printf "F("
 
-            # attribute or metatype
-            if (field_attr != "") {
+            # attribute/tag name or metatype
+            if (field_attr != "" || field_tag != "") {
                 printf attr_name
             } else {
                 printf data["fields"][j]["metatype"]
