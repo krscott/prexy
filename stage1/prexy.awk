@@ -49,43 +49,12 @@ state == COLLECT && /};/ {
 
     code = strip(code)
 
-    split("", data)
+    split("", data)  # clear data array
+
     if (parse_enum(code, data)) {
-        print "#define " data["name"] "_x_count " data["count"]
-        print "#define " data["name"] "_x_variants(X) \\"
-        for (i = 0; i < data["count"]; ++i) {
-            print "X(" data["variants"][i] ") \\"
-        }
-        print ""
+        print_enum(data)
     } else if (parse_struct(code, data)) {
-        for (i = 0; i < data["attr_count"]; ++i) {
-            attr_name = data["attrs"][i]
-
-            if (i == 0) {
-                print "#define " data["name"] "_x_fields(F) \\"
-            } else {
-                print "#define " data["name"] "_x_fields_" attr_name "(F) \\"
-            }
-
-            for (j = 0; j < data["field_count"]; ++j) {
-                field_attr = data["fields"][j]["attrs"][attr_name]
-                printf "F("
-                if (field_attr != "") {
-                    printf attr_name
-                } else {
-                    printf data["fields"][j]["metatype"]
-                }
-                printf ", " data["fields"][j]["type"] ", " data["fields"][j]["name"]
-                if (data["fields"][j]["length"]) {
-                    printf ", " data["fields"][j]["length"]
-                }
-                if (field_attr != "") {
-                    printf ", " data["fields"][j]["attrs"][attr_name]
-                }
-                print ") \\"
-            }
-            print ""
-        }
+        print_struct(data)
     } else {
         error("Unknown structure type")
     }
@@ -113,6 +82,15 @@ function parse_enum(code, data) {
     return 1
 }
 
+function print_enum(data) {
+    print "#define " data["name"] "_x_count " data["count"]
+    print "#define " data["name"] "_x_variants(X) \\"
+    for (i = 0; i < data["count"]; ++i) {
+        print "X(" data["variants"][i] ") \\"
+    }
+    print ""
+}
+
 function parse_struct(code, data) {
     if (!match(code, /^prexy struct ([[:alnum:]_]+)[[:space:]]*{(.*)};$/, m)) {
         print code
@@ -133,26 +111,31 @@ function parse_struct(code, data) {
         data["fields"][field_count]["length"] = 0
 
         if (match(s, /^px_attr\([[:space:]]*([[:alnum:]_]+),[[:space:]]+(.*)\)$/, m)) {
+            # attribute
             data["attrs"][attr_count++] = m[1]
             data["fields"][field_count]["attrs"][m[1]] = m[2]
         } else if (match(s, /^(enum|struct)[[:space:]]+([[:alnum:]_]+)[[:space:]+]([[:alnum:]_]+)\[[[:space:]]*([[:alnum:]]+)[[:space:]]*\]$/, m)) {
+            # array of enums or structs
             data["fields"][field_count]["metatype"] = m[1] "_array"
             data["fields"][field_count]["type"] = strip(m[2])
             data["fields"][field_count]["name"] = strip(m[3])
             data["fields"][field_count]["length"] = strip(m[4])
             ++field_count
         } else if (match(s, /^(enum|struct)[[:space:]]+([[:alnum:]_]+)[[:space:]+]([[:alnum:]_]+)$/, m)) {
+            # enum or struct
             data["fields"][field_count]["metatype"] = m[1]
             data["fields"][field_count]["type"] = strip(m[2])
             data["fields"][field_count]["name"] = strip(m[3])
             ++field_count
         } else if (match(s, /^([[:alnum:]_*[:space:]]+[[:space:]*])([[:alnum:]_]+)\[[[:space:]]*([[:alnum:]]+)[[:space:]]*\]$/, m)) {
+            # array of simple types
             data["fields"][field_count]["metatype"] = "simple_array"
             data["fields"][field_count]["type"] = strip(m[1])
             data["fields"][field_count]["name"] = strip(m[2])
             data["fields"][field_count]["length"] = strip(m[3])
             ++field_count
         } else if (match(s, /^([[:alnum:]_*[:space:]]+[[:space:]*])([[:alnum:]_]+)$/, m)) {
+            # simple type
             data["fields"][field_count]["metatype"] = "simple"
             data["fields"][field_count]["type"] = strip(m[1])
             data["fields"][field_count]["name"] = strip(m[2])
@@ -164,6 +147,47 @@ function parse_struct(code, data) {
     data["attr_count"] = attr_count
 
     return 1
+}
+
+function print_struct(data) {
+    for (i = 0; i < data["attr_count"]; ++i) {
+        attr_name = data["attrs"][i]
+
+        if (i == 0) {
+            # attr 0 is implicit "no-attributes" attr
+            print "#define " data["name"] "_x_fields(F) \\"
+        } else {
+            print "#define " data["name"] "_x_fields_" attr_name "(F) \\"
+        }
+
+        for (j = 0; j < data["field_count"]; ++j) {
+            field_attr = data["fields"][j]["attrs"][attr_name]
+            printf "F("
+
+            # attribute or metatype
+            if (field_attr != "") {
+                printf attr_name
+            } else {
+                printf data["fields"][j]["metatype"]
+            }
+
+            # type and field name
+            printf ", " data["fields"][j]["type"] ", " data["fields"][j]["name"]
+
+            # array length
+            if (data["fields"][j]["length"]) {
+                printf ", " data["fields"][j]["length"]
+            }
+
+            # attribute struct fields
+            if (field_attr != "") {
+                printf ", " data["fields"][j]["attrs"][attr_name]
+            }
+
+            print ") \\"
+        }
+        print ""
+    }
 }
 
 function error(msg) {
