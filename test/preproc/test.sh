@@ -3,6 +3,7 @@ set -euo pipefail
 shopt -s failglob
 
 PREXY="$(realpath "$PREXY")"
+PREXYLIB="../../prexylib"
 
 cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
@@ -83,7 +84,7 @@ for file in *.c; do
         verbose
 
         $PREXY "$file" | clang-format >"${test_name}_prexy.h"
-        $CC -Wall -Wextra -pedantic -Werror -I../include "$file" -o "$bin"
+        $CC -Wall -Wextra -pedantic -Werror -I"$PREXYLIB/include" "$file" -o "$bin"
         ./"$bin" >"$file.stdout"
     )
 done

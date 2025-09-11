@@ -50,7 +50,7 @@ tst() {
     (
         set -eux
 
-        PREXY=stage1/prexy.awk ./test/test.sh "$@"
+        PREXY=stage1/prexy.awk ./test/preproc/test.sh "$@"
     )
 }
 
