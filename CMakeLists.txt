@@ -55,6 +55,7 @@ else()
     add_compile_options(-Os)
 endif()
 
+# add_subdirectory(prexylib)
 add_subdirectory(src)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY C_STANDARD 11)

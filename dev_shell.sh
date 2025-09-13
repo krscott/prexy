@@ -50,7 +50,8 @@ tst() {
     (
         set -eu
 
-        # PREXY=stage1/prexy.awk ./test/preproc/test.sh "$@"
+        PREXYP=$(realpath stage1/prexyp)
+        export PREXYP
 
         cfg
         bld

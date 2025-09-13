@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s failglob
+
+DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+usage() {
+    # NOTE: Don't forget to update OPTIONS/LONGOPTS/POS_MIN/POS_MAX below!
+    cat <<EOF
+Usage: $(basename "$0") [options] source
+
+Positional Parameters:
+    source                  Source C file to preprocess
+
+Options:
+    -o, --output PATH       Output file path
+    -f, --formatter CMD     Formatter command (default: 'clang-format')
+    -h, --help              Display this help message.
+    -v, --verbose           Enable debug messages
+EOF
+}
+
+# NOTE: Use ':' suffix to specify opt has an arg
+OPTIONS="o:f:hv"
+LONGOPTS="output:,formatter:,help,verbose"
+POS_MIN=1
+POS_MAX=1
+
+if ! PARSED=$(getopt --options="$OPTIONS" --longoptions="$LONGOPTS" --name "$0" -- "$@"); then
+    usage
+    exit 2
+fi
+
+eval set -- "$PARSED"
+
+output=
+formatter=clang-format
+verbose=
+
+while true; do
+    opt="$1"
+    shift
+
+    # NOTE: shift again if taking an arg
+
+    case "$opt" in
+    -o | --output)
+        output="$1"
+        shift
+        ;;
+    -f | --formatter)
+        formatter="$1"
+        shift
+        ;;
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    -v | --verbose)
+        verbose=1
+        ;;
+    --)
+        break
+        ;;
+    *)
+        echo "Unknown option: $opt" >&2
+        usage
+        exit 2
+        ;;
+    esac
+done
+
+if [[ $# -lt $POS_MIN ]]; then
+    echo "Missing argument" >&2
+    usage
+    exit 2
+fi
+if [[ $# -gt $POS_MAX ]]; then
+    echo "Too many arguments" >&2
+    usage
+    exit 2
+fi
+
+debug() {
+    if [[ -n $verbose ]]; then
+        echo "$@" >&2
+    fi
+}
+
+verbose() {
+    if [[ -n $verbose ]]; then
+        set -x
+    fi
+}
+
+source_path="$1"
+
+if [[ ! -f $source_path ]]; then
+    echo "File '$source_path' does not exist"
+    exit 1
+fi
+
+debug "Formatting '$source_path'"
+if [[ -n $output ]]; then
+    (
+        verbose
+        awk -f "$DIR/prexy.awk" "$source_path" | $formatter >"$output"
+    )
+else
+    (
+        verbose
+        awk -f "$DIR/prexy.awk" "$source_path" | $formatter
+    )
+fi

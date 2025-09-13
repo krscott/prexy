@@ -8,8 +8,7 @@ foreach(src IN LISTS TEST_SRCS)
 
     add_custom_command(
         OUTPUT ${h_path}
-        COMMAND /bin/sh -c
-            "${CMAKE_SOURCE_DIR}/stage1/prexy.awk \"${c_path}\" | clang-format >\"${h_path}\""
+        COMMAND $ENV{PREXYP} "${c_path}" -o "${h_path}"
         DEPENDS ${c_path}
         VERBATIM
     )
