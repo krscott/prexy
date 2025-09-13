@@ -20,5 +20,5 @@ foreach(src IN LISTS TEST_SRCS)
     # Header only tests
     include_directories(../../prexylib/include)
 
-    add_test(NAME ${name} COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../test_runner.sh ${name} preproc)
+    add_test(NAME ${name} COMMAND ${CMAKE_SOURCE_DIR}/test/test_runner.sh ${name} preproc_test)
 endforeach()

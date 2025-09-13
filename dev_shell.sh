@@ -57,7 +57,7 @@ tst() {
         bld
 
         (
-            cd build/test/preproc
+            cd build/test/preproc_test
             ctest --output-on-failure
         )
     )

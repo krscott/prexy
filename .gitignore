@@ -1,6 +1,7 @@
 .vscode/
 build/
 CMakeFiles/
+Testing/
 .cache/
 .compile-db/
 result
