@@ -26,6 +26,7 @@ if (CMAKE_C_COMPILER_ID STREQUAL "Clang")
         -Wno-switch-default
         -Wno-used-but-marked-unused
 
+        # Errors
         -Werror=sometimes-uninitialized
     )
 else()

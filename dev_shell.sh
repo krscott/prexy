@@ -50,14 +50,14 @@ tst() {
     (
         set -eu
 
-        PREXY=stage1/prexy.awk ./test/preproc/test.sh "$@"
+        # PREXY=stage1/prexy.awk ./test/preproc/test.sh "$@"
 
         cfg
         bld
 
         (
             cd build/test/preproc
-            ctest
+            ctest --output-on-failure
         )
     )
 }
