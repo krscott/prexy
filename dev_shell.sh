@@ -60,6 +60,10 @@ tst() {
             cd build/test/preproc_test
             ctest --output-on-failure
         )
+        (
+            cd build/test/lib_test
+            ctest --output-on-failure
+        )
     )
 }
 
