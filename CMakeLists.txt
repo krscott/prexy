@@ -60,3 +60,4 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY C_STANDARD 11)
 
 install(TARGETS ${PROJECT_NAME})
 
+add_subdirectory(test)

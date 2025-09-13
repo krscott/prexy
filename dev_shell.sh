@@ -48,9 +48,17 @@ crun() {
 
 tst() {
     (
-        set -eux
+        set -eu
 
         PREXY=stage1/prexy.awk ./test/preproc/test.sh "$@"
+
+        cfg
+        bld
+
+        (
+            cd build/test/preproc
+            ctest
+        )
     )
 }
 
