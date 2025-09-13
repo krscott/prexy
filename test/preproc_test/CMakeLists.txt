@@ -18,7 +18,7 @@ foreach(src IN LISTS TEST_SRCS)
     # target_link_libraries(${name} PRIVATE mylib)
 
     # Header only tests
-    include_directories(../../prexylib/include)
+    include_directories(${CMAKE_SOURCE_DIR}/prexylib/include)
 
-    add_test(NAME ${name} COMMAND ${CMAKE_SOURCE_DIR}/test/test_runner.sh ${name} preproc_test)
+    add_test(NAME ${name} COMMAND ${CMAKE_SOURCE_DIR}/test/test_runner.sh ${name} ${CMAKE_CURRENT_SOURCE_DIR})
 endforeach()

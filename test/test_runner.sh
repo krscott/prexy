@@ -1,10 +1,11 @@
 #!/usr/bin/env sh
 set -eu
 
-OUT_DIR="$(dirname "$(readlink -f -- "$0")")/$2"
+PROG="$1"
+[ -e "$PROG" ]
+OUT_DIR="$2"
 [ -d "$OUT_DIR" ]
 
-PROG="$1"
 ACTUAL_STDOUT="$PROG.stdout"
 EXPECTED_STDOUT="$OUT_DIR/$PROG.stdout"
 
