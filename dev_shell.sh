@@ -50,9 +50,6 @@ tst() {
     (
         set -eu
 
-        PREXYP=$(realpath stage1/prexyp)
-        export PREXYP
-
         cfg
         bld
 
@@ -86,6 +83,9 @@ setup_vscode() {
     mkdir -p .vscode/
     cp dev/vscode/* .vscode/
 }
+
+PREXYP=$(realpath stage1/prexyp)
+export PREXYP
 
 export CC=clang
 debug
