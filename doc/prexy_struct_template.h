@@ -1,5 +1,5 @@
-#ifndef PREXY_DA_H_
-#define PREXY_DA_H_
+#ifndef PREXY_TEMPLATE_H_
+#define PREXY_TEMPLATE_H_
 
 // Field implementations
 
