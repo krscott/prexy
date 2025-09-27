@@ -68,11 +68,11 @@
 
         apps = {
           format = mkApp ''
-            ./dev_shell.sh format
+            nix develop -c ./dev_shell.sh format
             alejandra ./*.nix
           '';
           test = mkApp ''
-            PREXY=${prexy-stage1}/bin/prexyp ./dev_shell.sh tst
+            nix develop -c bash -c "PREXYP=${prexy-stage1}/bin/prexyp ./dev_shell.sh tst"
           '';
         };
 

@@ -3,6 +3,8 @@ stage1() {
 }
 
 cfg() {
+    echo "PREXYP=$PREXYP"
+
     (
         set -eu
 

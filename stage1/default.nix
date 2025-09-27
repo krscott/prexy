@@ -12,12 +12,12 @@ in
     installPhase = ''
       mkdir -p $out/bin
       chmod +x prexy.awk
-      mv prexy.awk $out/bin/prexy
+      mv prexy.awk prexyp $out/bin/
       cp -r ${includeSrc} $out/include
     '';
 
     meta = {
       license = lib.licenses.gpl3Plus;
-      mainProgram = "prexy";
+      mainProgram = "prexyp";
     };
   }
