@@ -4,7 +4,7 @@
 }:
 stdenvNoCC.mkDerivation {
   pname = "prexy";
-  version = builtins.readFile ../version.txt;
+  version = lib.trim (builtins.readFile ../version.txt);
   src = lib.cleanSource ./..;
 
   installPhase = ''
