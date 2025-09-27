@@ -1,4 +1,5 @@
 #include "03_enum_to_cstr_prexy.h"
+#include "prexy_enum_to_cstr.h"
 #include <assert.h>
 #include <string.h>
 
@@ -7,7 +8,7 @@ prexy enum tst3 {
     BAR,
     BAZ,
 };
-static prexy_enum_to_cstr_impl(tst3);
+static prexy_enum_impl(prexy_enum_to_cstr, tst3);
 
 int main(void)
 {

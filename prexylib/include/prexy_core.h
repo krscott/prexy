@@ -51,16 +51,29 @@
 
 #define PREXY_SELECT(macro_name, fkind, ...) macro_name##_##fkind(__VA_ARGS__)
 
-#define prexy_decl(macro_name, name) macro_name##_decl(name)
+#define prexy_decl(macro_name, name)                                           \
+    macro_name##_decl(name);                                                   \
+    PREXY_ASSERT_IS_TAG(macro_name)
 
-#define prexy_impl(macro_name, name) macro_name##_impl(name, name##_x_fields)
+// clang-format off
+// NOTE: _impl macros do not end with semicolon
+
+#define prexy_enum_impl(macro_name, name)                                      \
+    macro_name##_impl(name, name##_x_variants)                                 \
+    PREXY_ASSERT_IS_TAG(macro_name)
+
+#define prexy_impl(macro_name, name)                                           \
+    macro_name##_impl(name, name##_x_fields)                                   \
+    PREXY_ASSERT_IS_TAG(macro_name)
 
 #define prexy_impl_attr(macro_name, name, attr)                                \
-    macro_name##_impl(name, name##_x_fields_##attr);                           \
+    macro_name##_impl(name, name##_x_fields_##attr)                            \
     static_assert(sizeof(*(struct attr *)0), "")
 
 #define prexy_impl_tag(macro_name, name, tag)                                  \
-    macro_name##_impl(name, name##_x_fields_##tag);                            \
+    macro_name##_impl(name, name##_x_fields_##tag)                             \
     PREXY_ASSERT_IS_TAG(tag)
+
+// clang-format on
 
 #endif

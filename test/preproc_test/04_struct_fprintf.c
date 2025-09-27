@@ -9,7 +9,7 @@ prexy enum cheese_kind {
     SWISS,
     BRIE,
 };
-static prexy_enum_to_cstr_impl(cheese_kind);
+static prexy_enum_impl(prexy_enum_to_cstr, cheese_kind);
 
 prexy struct cheese
 {
