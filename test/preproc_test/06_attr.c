@@ -39,13 +39,13 @@ prexy struct cstr
 
     size_t len;
 };
-static prexy_impl_attr(prexy_struct_fprint_repr, cstr, strattr);
+static prexy_impl_attr(cstr, prexy_struct_fprint_repr, strattr);
 
 prexy struct messages
 {
     struct cstr buf[6];
 };
-static prexy_impl(prexy_struct_fprint_repr, messages);
+static prexy_impl(messages, prexy_struct_fprint_repr);
 
 static struct cstr make_cstr(char const *s)
 {

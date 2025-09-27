@@ -8,7 +8,7 @@ prexy enum tst3 {
     BAR,
     BAZ,
 };
-static prexy_enum_impl(prexy_enum_to_cstr, tst3);
+static prexy_enum_impl(tst3, prexy_enum_to_cstr);
 
 int main(void)
 {

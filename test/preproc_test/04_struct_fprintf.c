@@ -9,14 +9,14 @@ prexy enum cheese_kind {
     SWISS,
     BRIE,
 };
-static prexy_enum_impl(prexy_enum_to_cstr, cheese_kind);
+static prexy_enum_impl(cheese_kind, prexy_enum_to_cstr);
 
 prexy struct cheese
 {
     enum cheese_kind kind;
     bool is_melty;
 };
-static prexy_impl(prexy_struct_fprint_repr, cheese);
+static prexy_impl(cheese, prexy_struct_fprint_repr);
 
 prexy struct bagel
 {
@@ -24,7 +24,7 @@ prexy struct bagel
     double price;
     struct cheese cheeses[3];
 };
-static prexy_impl(prexy_struct_fprint_repr, bagel);
+static prexy_impl(bagel, prexy_struct_fprint_repr);
 
 int main(void)
 {
