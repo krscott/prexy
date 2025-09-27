@@ -3,9 +3,7 @@
 
 #include <assert.h>
 
-#define prexy_count(name) (name##_COUNT + (0 * sizeof((enum name)0)))
-
-// Pre-processor marker macro
+// Pre-processor marker macros
 
 #define prexy
 #define prexy_tag(name)                                                        \
@@ -14,11 +12,15 @@
         char prexy_tag__;                                                      \
     }
 
-#define PREXY_ASSERT_IS_TAG(name)                                              \
-    static_assert(sizeof(((struct name *)0)->prexy_tag__), "")
-
-#define px_tag(name) static_assert(sizeof((struct name){'\0'}), "")
+#define px_tag(name)                                                           \
+    static_assert(sizeof((struct name){.prexy_tag__ = '\0'}), "")
 #define px_attr(name, ...) static_assert(sizeof((struct name){__VA_ARGS__}), "")
+
+// Helper macros
+
+#define prexy_count(name) (name##_COUNT + (0 * sizeof((enum name)0)))
+
+#define PREXY_ASSERT_IS_TAG(name) px_tag(name)
 
 // Struct function decl/impl macros
 
