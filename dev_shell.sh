@@ -93,7 +93,8 @@ format() {
     done
 }
 
-if [ $# -gt 0 ]; then
+# Check "$1" is not a file because direnv will pass a profile when sourced
+if [ $# -gt 0 ] && [ ! -e "$1" ]; then
     "$@"
     exit $?
 fi
