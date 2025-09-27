@@ -72,7 +72,7 @@
             alejandra ./*.nix
           '';
           test = mkApp ''
-            nix develop -c bash -c "PREXYP=${prexy-stage1}/bin/prexyp ./dev_shell.sh tst"
+            nix develop -c bash -c "PREXY=${prexy-stage1}/bin/prexy ./dev_shell.sh tst"
           '';
         };
 

@@ -11,7 +11,7 @@ foreach(src IN LISTS TEST_SRCS)
 
     add_custom_command(
         OUTPUT ${h_path}
-        COMMAND $ENV{PREXYP} "${c_path}" -o "${h_path}"
+        COMMAND $ENV{PREXY} "${c_path}" -o "${h_path}"
         DEPENDS ${c_path} always_rebuild
         VERBATIM
     )

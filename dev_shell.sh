@@ -3,7 +3,7 @@ stage1() {
 }
 
 cfg() {
-    echo "PREXYP=$PREXYP"
+    echo "PREXY=$PREXY"
 
     (
         set -eu
@@ -99,8 +99,8 @@ if [ $# -gt 0 ] && [ ! -e "$1" ]; then
     exit $?
 fi
 
-PREXYP=$(realpath stage1/prexyp)
-export PREXYP
+PREXY=$(realpath stage1/prexy)
+export PREXY
 
 export CC=clang
 debug

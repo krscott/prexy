@@ -17,6 +17,6 @@ stdenvNoCC.mkDerivation {
 
   meta = {
     license = lib.licenses.gpl3Plus;
-    mainProgram = "prexyp";
+    mainProgram = "prexy";
   };
 }
