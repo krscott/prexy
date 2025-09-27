@@ -93,7 +93,7 @@ format() {
 
 if [ $# -gt 0 ]; then
     "$@"
-    exit 0
+    exit $?
 fi
 
 PREXYP=$(realpath stage1/prexyp)
