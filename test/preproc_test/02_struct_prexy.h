@@ -29,7 +29,7 @@
 //     ONE,
 //     TWO,
 // };
-#define nums_count 2
+#define nums_COUNT 2
 #define nums_X(X)                                                              \
     X(ONE)                                                                     \
     X(TWO)

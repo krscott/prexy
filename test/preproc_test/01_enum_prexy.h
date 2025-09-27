@@ -9,7 +9,7 @@
 //     bar,
 //     baz = 10,
 // };
-#define foo_count 2
+#define foo_COUNT 2
 #define foo_X(X)                                                               \
     X(bar)                                                                     \
     X(baz)
@@ -22,7 +22,7 @@
 //     // What is Truth?
 //     FileNotFound
 // };
-#define Bool_count 3
+#define Bool_COUNT 3
 #define Bool_X(X)                                                              \
     X(False)                                                                   \
     X(True)                                                                    \

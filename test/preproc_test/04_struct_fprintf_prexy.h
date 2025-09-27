@@ -10,7 +10,7 @@
 //     SWISS,
 //     BRIE,
 // };
-#define cheese_kind_count 3
+#define cheese_kind_COUNT 3
 #define cheese_kind_X(X)                                                       \
     X(CHEDDAR)                                                                 \
     X(SWISS)                                                                   \

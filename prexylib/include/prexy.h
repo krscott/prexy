@@ -3,6 +3,8 @@
 
 #include <assert.h>
 
+#define prexy_count(name) (name##_COUNT + (0 * sizeof((enum name)0)))
+
 // Pre-processor marker macro
 
 #define prexy

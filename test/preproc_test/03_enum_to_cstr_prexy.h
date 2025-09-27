@@ -10,7 +10,7 @@
 //     BAR,
 //     BAZ,
 // };
-#define tst3_count 3
+#define tst3_COUNT 3
 #define tst3_X(X)                                                              \
     X(FOO)                                                                     \
     X(BAR)                                                                     \

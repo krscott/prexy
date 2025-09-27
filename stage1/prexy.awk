@@ -83,7 +83,7 @@ function parse_enum(code, data) {
 }
 
 function print_enum(data) {
-    print "#define " data["name"] "_count " data["count"]
+    print "#define " data["name"] "_COUNT " data["count"]
     print "#define " data["name"] "_X(X) \\"
     for (i = 0; i < data["count"]; ++i) {
         print "X(" data["variants"][i] ") \\"

@@ -36,7 +36,7 @@ prexy enum nums {
     ONE,
     TWO,
 };
-static_assert(nums_count == 2, "");
+static_assert(prexy_count(nums) == 2, "");
 
 prexy struct enums
 {
