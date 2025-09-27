@@ -84,6 +84,11 @@ setup_vscode() {
     cp dev/vscode/* .vscode/
 }
 
+if [ $# -gt 0 ]; then
+    "$@"
+    exit 0
+fi
+
 PREXYP=$(realpath stage1/prexyp)
 export PREXYP
 

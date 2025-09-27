@@ -20,7 +20,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
 
         # Final derivation including any overrides made to output package
-        inherit (self.packages.${system}) prexy;
+        inherit (self.packages.${system}) prexy prexy-stage1;
 
         devPkgs = with pkgs; [
           shfmt
@@ -72,7 +72,7 @@
             alejandra ./*.nix
           '';
           test = mkApp ''
-            PREXY=stage1/prexy.awk ./test/test.sh
+            PREXY=${prexy-stage1}/bin/prexyp ./dev_shell.sh tst
           '';
         };
 
