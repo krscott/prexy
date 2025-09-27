@@ -13,6 +13,7 @@ Positional Parameters:
     source                  Source C file to preprocess
 
 Options:
+    --header                Print prexy.h
     -o, --output PATH       Output file path
     -f, --formatter CMD     Formatter command (default: 'clang-format')
     -h, --help              Display this help message.
@@ -33,6 +34,7 @@ fi
 
 eval set -- "$PARSED"
 
+print_header=
 output=
 formatter=clang-format
 verbose=
@@ -44,6 +46,9 @@ while true; do
     # NOTE: shift again if taking an arg
 
     case "$opt" in
+    --header)
+        print_header=1
+        ;;
     -o | --output)
         output="$1"
         shift
@@ -69,6 +74,11 @@ while true; do
         ;;
     esac
 done
+
+if [[ -n $print_header ]]; then
+    cat "$DIR/../include/prexy.h"
+    exit 0
+fi
 
 if [[ $# -lt $POS_MIN ]]; then
     echo "Missing argument" >&2
