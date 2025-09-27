@@ -1,6 +1,14 @@
 #include "01_enum_prexy.h"
 #include <assert.h>
 
+#define X_DEF_ENUM_VARIANT(x) x,
+
+#define def_enum(name)                                                         \
+    enum name                                                                  \
+    {                                                                          \
+        name##_x_variants(X_DEF_ENUM_VARIANT)                                  \
+    }
+
 prexy enum foo {
     bar,
     baz = 10,
@@ -24,7 +32,7 @@ enum prexy_not
     X(MANUAL_A)                                                                \
     X(MANUAL_B)
 
-prexy_enum(manual_enum);
+def_enum(manual_enum);
 
 int main(void)
 {
