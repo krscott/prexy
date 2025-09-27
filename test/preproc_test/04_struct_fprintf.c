@@ -1,5 +1,6 @@
 #include "04_struct_fprintf_prexy.h"
 #include "prexy.h"
+#include "prexy_enum_to_cstr.h"
 #include "prexy_struct_fprintf.h"
 #include <stdbool.h>
 #include <stdio.h>

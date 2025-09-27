@@ -1,7 +1,7 @@
 #ifndef PREXY_ENUM_TO_CSTR_H_
 #define PREXY_ENUM_TO_CSTR_H_
 
-#include "prexy_core.h"
+#include "prexy.h"
 #include <assert.h>
 
 #define PREXY_ENUM_TO_CSTR_CASE(x)                                             \

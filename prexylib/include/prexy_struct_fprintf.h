@@ -1,7 +1,7 @@
 #ifndef PREXY_STRUCT_FPRINTF_H_
 #define PREXY_STRUCT_FPRINTF_H_
 
-#include "prexy_core.h"
+#include "prexy.h"
 #include <assert.h>
 #include <stdio.h>
 
