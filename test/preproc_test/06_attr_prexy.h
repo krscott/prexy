@@ -16,17 +16,17 @@
 //
 //     size_t len;
 // };
-#define cstr_x_fields(F)                                                       \
+#define cstr_X(F)                                                              \
     F(simple, char const *, buf)                                               \
     F(simple, char const *, ptr)                                               \
     F(simple, size_t, len)
 
-#define cstr_x_fields_strattr(F)                                               \
+#define cstr_X_strattr(F)                                                      \
     F(strattr, char const *, buf, .is_cstr = true)                             \
     F(strattr, char const *, ptr, 0)                                           \
     F(simple, size_t, len)
 
-#define cstr_x_fields_fooattr(F)                                               \
+#define cstr_X_fooattr(F)                                                      \
     F(simple, char const *, buf)                                               \
     F(fooattr, char const *, ptr, 0)                                           \
     F(simple, size_t, len)
@@ -35,6 +35,6 @@
 // {
 //     struct cstr buf[6];
 // };
-#define messages_x_fields(F) F(struct_array, cstr, buf, 6)
+#define messages_X(F) F(struct_array, cstr, buf, 6)
 
 #endif

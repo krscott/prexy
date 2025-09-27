@@ -12,7 +12,7 @@
 //     // things
 //     char const *str;
 // };
-#define simples_x_fields(F)                                                    \
+#define simples_X(F)                                                           \
     F(simple, int, i)                                                          \
     F(simple, char const *, str)
 
@@ -21,7 +21,7 @@
 //     int arr[5];
 //     char const *strings[80];
 // };
-#define arrays_x_fields(F)                                                     \
+#define arrays_X(F)                                                            \
     F(simple_array, int, arr, 5)                                               \
     F(simple_array, char const *, strings, 80)
 
@@ -29,8 +29,8 @@
 //     ONE,
 //     TWO,
 // };
-#define nums_x_count 2
-#define nums_x_variants(X)                                                     \
+#define nums_count 2
+#define nums_X(X)                                                              \
     X(ONE)                                                                     \
     X(TWO)
 
@@ -39,7 +39,7 @@
 //     enum nums a_num;
 //     enum nums nums[3];
 // };
-#define enums_x_fields(F)                                                      \
+#define enums_X(F)                                                             \
     F(enum, nums, a_num)                                                       \
     F(enum_array, nums, nums, 3)
 
@@ -49,7 +49,7 @@
 //     struct simples tail[11];
 //     struct simples *simple_ref;
 // };
-#define nested_x_fields(F)                                                     \
+#define nested_X(F)                                                            \
     F(struct, simples, head)                                                   \
     F(struct_array, simples, tail, 11)                                         \
     F(simple, struct simples *, simple_ref)

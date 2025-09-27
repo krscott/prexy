@@ -10,8 +10,8 @@
 //     BAR,
 //     BAZ,
 // };
-#define tst3_x_count 3
-#define tst3_x_variants(X)                                                     \
+#define tst3_count 3
+#define tst3_X(X)                                                              \
     X(FOO)                                                                     \
     X(BAR)                                                                     \
     X(BAZ)

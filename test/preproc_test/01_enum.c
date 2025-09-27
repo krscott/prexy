@@ -37,6 +37,6 @@ def_enum(manual_enum);
 int main(void)
 {
     static_assert(MANUAL_B == 1, "");
-    static_assert(FileNotFound + 1 == Bool_x_count, "");
+    static_assert(FileNotFound + 1 == Bool_count, "");
     return (int)MANUAL_A;
 }

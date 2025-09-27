@@ -10,8 +10,8 @@
 //     SWISS,
 //     BRIE,
 // };
-#define cheese_kind_x_count 3
-#define cheese_kind_x_variants(X)                                              \
+#define cheese_kind_count 3
+#define cheese_kind_X(X)                                                       \
     X(CHEDDAR)                                                                 \
     X(SWISS)                                                                   \
     X(BRIE)
@@ -21,7 +21,7 @@
 //     enum cheese_kind kind;
 //     bool is_melty;
 // };
-#define cheese_x_fields(F)                                                     \
+#define cheese_X(F)                                                            \
     F(enum, cheese_kind, kind)                                                 \
     F(simple, bool, is_melty)
 
@@ -31,7 +31,7 @@
 //     double price;
 //     struct cheese cheeses[3];
 // };
-#define bagel_x_fields(F)                                                      \
+#define bagel_X(F)                                                             \
     F(simple_array, char, name, 10)                                            \
     F(simple, double, price)                                                   \
     F(struct_array, cheese, cheeses, 3)

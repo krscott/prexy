@@ -83,8 +83,8 @@ function parse_enum(code, data) {
 }
 
 function print_enum(data) {
-    print "#define " data["name"] "_x_count " data["count"]
-    print "#define " data["name"] "_x_variants(X) \\"
+    print "#define " data["name"] "_count " data["count"]
+    print "#define " data["name"] "_X(X) \\"
     for (i = 0; i < data["count"]; ++i) {
         print "X(" data["variants"][i] ") \\"
     }
@@ -170,9 +170,9 @@ function print_struct(data) {
 
         if (i == 0) {
             # attr 0 is implicit "no-attributes" attr
-            print "#define " data["name"] "_x_fields(F) \\"
+            print "#define " data["name"] "_X(F) \\"
         } else {
-            print "#define " data["name"] "_x_fields_" attr_name "(F) \\"
+            print "#define " data["name"] "_X_" attr_name "(F) \\"
         }
 
         for (j = 0; j < data["field_count"]; ++j) {

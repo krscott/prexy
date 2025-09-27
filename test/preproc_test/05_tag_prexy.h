@@ -12,11 +12,11 @@
 //
 //     size_t len;
 // };
-#define cstr_x_fields(F)                                                       \
+#define cstr_X(F)                                                              \
     F(simple, char const *, buf)                                               \
     F(simple, size_t, len)
 
-#define cstr_x_fields_format_as_str(F)                                         \
+#define cstr_X_format_as_str(F)                                                \
     F(format_as_str, char const *, buf)                                        \
     F(simple, size_t, len)
 
@@ -24,6 +24,6 @@
 // {
 //     struct cstr buf[5];
 // };
-#define messages_x_fields(F) F(struct_array, cstr, buf, 5)
+#define messages_X(F) F(struct_array, cstr, buf, 5)
 
 #endif

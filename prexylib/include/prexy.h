@@ -27,20 +27,16 @@
 // clang-format off
 // NOTE: _impl macros do not end with semicolon
 
-#define prexy_enum_impl(name, macro_name)                                      \
-    macro_name##_impl(name, name##_x_variants)                                 \
-    PREXY_ASSERT_IS_TAG(macro_name)
-
 #define prexy_impl(name, macro_name)                                           \
-    macro_name##_impl(name, name##_x_fields)                                   \
+    macro_name##_impl(name, name##_X)                                          \
     PREXY_ASSERT_IS_TAG(macro_name)
 
 #define prexy_impl_attr(name, macro_name, attr)                                \
-    macro_name##_impl(name, name##_x_fields_##attr)                            \
+    macro_name##_impl(name, name##_X_##attr)                                   \
     static_assert(sizeof(*(struct attr *)0), "")
 
 #define prexy_impl_tag(name, macro_name, tag)                                  \
-    macro_name##_impl(name, name##_x_fields_##tag)                             \
+    macro_name##_impl(name, name##_X_##tag)                                    \
     PREXY_ASSERT_IS_TAG(tag)
 
 // clang-format on
