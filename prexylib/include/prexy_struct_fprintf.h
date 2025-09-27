@@ -1,6 +1,7 @@
 #ifndef PREXY_STRUCT_FPRINTF_H_
 #define PREXY_STRUCT_FPRINTF_H_
 
+#include "prexy_core.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -85,25 +86,20 @@
         fprintf(stream, "}, ");                                                \
     }
 
-#define PREXY_STRUCT_FPRINT_REPR(fkind, ...)                                   \
+#define PREXY_STRUCT_FPRINT_REPR_FIELD_SELECT(fkind, ...)                      \
     PREXY_STRUCT_FPRINT_REPR_##fkind(__VA_ARGS__)
+
+prexy_tag(prexy_struct_fprint_repr);
 
 #define prexy_struct_fprint_repr_decl(name)                                    \
     void name##_fprint_repr(FILE *stream, struct name const *x)
-#define prexy_struct_fprint_repr_impl_x(name, FIELDS_X)                        \
+#define prexy_struct_fprint_repr_impl(name, FIELDS_X)                          \
     prexy_struct_fprint_repr_decl(name)                                        \
     {                                                                          \
         fprintf(stream, "(struct " #name "){ ");                               \
-        FIELDS_X(PREXY_STRUCT_FPRINT_REPR)                                     \
+        FIELDS_X(PREXY_STRUCT_FPRINT_REPR_FIELD_SELECT)                        \
         fprintf(stream, "}");                                                  \
     }                                                                          \
     static_assert(1, "")
-#define prexy_struct_fprint_repr_impl(name)                                    \
-    prexy_struct_fprint_repr_impl_x(name, name##_x_fields)
-#define prexy_struct_fprint_repr_impl_attr(name, attr)                         \
-    prexy_struct_fprint_repr_impl_x(name, name##_x_fields_##attr);             \
-    static_assert(sizeof(*(struct attr *)0), "")
-#define prexy_struct_fprint_repr_impl_tag(name, tag)                           \
-    prexy_struct_fprint_repr_impl_attr(name, tag)
 
 #endif
