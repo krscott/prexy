@@ -84,6 +84,13 @@ setup_vscode() {
     cp dev/vscode/* .vscode/
 }
 
+format() {
+    for dir in "src" "test" "include" "prexylib"; do
+        find "$dir" -type f -name '*.c' -exec clang-format -i {} +
+        find "$dir" -type f -name '*.h' -exec clang-format -i {} +
+    done
+}
+
 if [ $# -gt 0 ]; then
     "$@"
     exit 0

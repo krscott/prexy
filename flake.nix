@@ -68,7 +68,7 @@
 
         apps = {
           format = mkApp ''
-            ./format.sh
+            ./dev_shell.sh format
             alejandra ./*.nix
           '';
           test = mkApp ''
