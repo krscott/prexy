@@ -8,7 +8,7 @@
     case x:                                                                    \
         return #x;
 
-prexy_tag(prexy_enum_to_cstr);
+prexy_namespace(prexy_enum_to_cstr);
 
 #define prexy_enum_to_cstr_decl(name)                                          \
     char const *name##_to_cstr(enum name const val)

@@ -89,7 +89,7 @@
 #define PREXY_STRUCT_FPRINT_REPR_FIELD_SELECT(fkind, ...)                      \
     PREXY_STRUCT_FPRINT_REPR_##fkind(__VA_ARGS__)
 
-prexy_tag(prexy_struct_fprint_repr);
+prexy_namespace(prexy_struct_fprint_repr);
 
 #define prexy_struct_fprint_repr_decl(name)                                    \
     void name##_fprint_repr(FILE *stream, struct name const *x)
