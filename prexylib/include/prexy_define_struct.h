@@ -18,7 +18,7 @@
 #define prexy_define_struct(name)                                              \
     struct name                                                                \
     {                                                                          \
-        PREXY_IDENT2(name, X)(PREXY_DEFINE_STRUCT_SELECT)                      \
+        PREXY_CONCAT(name, _X)(PREXY_DEFINE_STRUCT_SELECT)                     \
     }
 
 #endif

@@ -7,8 +7,8 @@
 
 #define prexy_count(name) (name##_COUNT + (0 * sizeof((enum name)0)))
 
-#define PREXY_IDENT2(x, y) x##_##y
-#define PREXY_IDENT3(x, y, z) x##_##y##_##z
+#define PREXY_CONCAT(x, y) x##y
+#define PREXY_CONCAT3(x, y, z) x##y##z
 
 #define PREXY_ASSERT_IS_TAG(name)                                              \
     static_assert(sizeof((struct name){.prexy_tag__ = '\0'}), "")
@@ -62,15 +62,15 @@
 // Generic macros
 
 #define prexy_typeof(struct_name, field_name)                                  \
-    PREXY_IDENT3(struct_name, FIELDTYPE, field_name)
+    PREXY_CONCAT3(struct_name, _FIELDTYPE_, field_name)
 #define prexy_is_mut_ptr(struct_name, field_name)                              \
-    PREXY_IDENT3(struct_name, IS_MUT_PTR, field_name)
+    PREXY_CONCAT3(struct_name, _IS_MUT_PTR_, field_name)
 #define prexy_is_const_ptr(struct_name, field_name)                            \
-    PREXY_IDENT3(struct_name, IS_CONST_PTR, field_name)
+    PREXY_CONCAT3(struct_name, _IS_CONST_PTR_, field_name)
 #define prexy_ptr_typeof(struct_name, field_name)                              \
-    PREXY_IDENT3(struct_name, PTRTYPE, field_name)
+    PREXY_CONCAT3(struct_name, _PTRTYPE_, field_name)
 
 #define prexy_methodname(struct_name, fn_name)                                 \
-    PREXY_IDENT2(struct_name, fn_name)
+    PREXY_CONCAT3(struct_name, _, fn_name)
 
 #endif
