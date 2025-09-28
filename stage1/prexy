@@ -99,7 +99,7 @@ if [[ $# -lt $POS_MIN ]]; then
     exit 2
 fi
 if [[ $# -gt $POS_MAX ]]; then
-    echo "Too many arguments" >&2
+    echo "Too many arguments:" "$@" >&2
     usage
     exit 2
 fi
@@ -124,12 +124,19 @@ verbose() {
 }
 
 find_include() {
-    for dir in "${include_args[@]}"; do
-        if [[ -f "$dir/$1" ]]; then
-            realpath "$dir/$1"
+    if [[ "$1" = /* ]]; then
+        if [[ -f "$1" ]]; then
+            echo "$1"
             return
         fi
-    done
+    else
+        for dir in "${include_args[@]}"; do
+            if [[ -f "$dir/$1" ]]; then
+                realpath "$dir/$1"
+                return
+            fi
+        done
+    fi
 
     echo "Could not find file: $1" >&2
     exit 3
