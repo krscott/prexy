@@ -1,5 +1,6 @@
 
 #include "prexy.h"
+#include "prexy_define_struct.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <string.h>
@@ -8,11 +9,7 @@
 // Default for IDE convenience
 #include "07_trait_prexy.h"
 #define collection str
-struct str
-{
-    char *ptr;
-    size_t len;
-};
+prexy_define_struct(collection);
 #endif
 
 static inline struct collection prexy_methodname(collection, from_cstr)( //
