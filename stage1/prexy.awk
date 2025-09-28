@@ -55,6 +55,7 @@ state == COLLECT && /};/ {
         print_enum(data)
     } else if (parse_struct(code, data)) {
         print_struct(data)
+        print_struct_fieldtypes(data)
     } else {
         error("Unknown structure type")
     }
@@ -204,6 +205,61 @@ function print_struct(data) {
         }
         print ""
     }
+}
+
+function print_struct_fieldtypes(data) {
+    for (i = 0; i < data["field_count"]; ++i) {
+        subtype = data["fields"][i]["type"]
+        metatype = data["fields"][i]["metatype"]
+        name = data["fields"][i]["name"]
+
+        # TODO: Treat arrays differently from pointers
+
+        switch (metatype) {
+        case "simple":
+            fieldtype = subtype
+            break
+        case "simple_array":
+            fieldtype = subtype "*"
+            break
+        case "struct":
+            fieldtype = "struct " subtype
+            break
+        case "struct_array":
+            fieldtype = "struct " subtype "*"
+            break
+        case "enum":
+            fieldtype = "enum " subtype
+            break
+        case "enum_array":
+            fieldtype = "enum " subtype "*"
+            break
+        default:
+            error("print_struct_fieldtypes: Unhandled metatype " metatype)
+            break
+        }
+
+        is_mut_ptr = 0
+        is_const_ptr = 0
+        ptr_type = 0
+        if (metatype == "simple") {
+            if (match(subtype, /^(.*)[[:space:]]const[[:space:]]*\*$/, m)) {
+                is_const_ptr = 1
+                ptr_type = strip(m[1])
+            } else if (match(subtype, /^(.*)\*$/, m)) {
+                is_mut_ptr = 1
+                ptr_type = strip(m[1])
+            }
+        }
+
+        print "#define " data["name"] "_FIELDTYPE_" name " " fieldtype
+        print "#define " data["name"] "_IS_MUT_PTR_" name " " is_mut_ptr
+        print "#define " data["name"] "_IS_CONST_PTR_" name " " is_const_ptr
+        if (ptr_type) {
+            print "#define " data["name"] "_PTRTYPE_" name " " ptr_type
+        }
+    }
+    print ""
 }
 
 function error(msg) {

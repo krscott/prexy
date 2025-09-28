@@ -25,6 +25,13 @@
     F(enum, cheese_kind, kind)                                                 \
     F(simple, bool, is_melty)
 
+#define cheese_FIELDTYPE_kind enum cheese_kind
+#define cheese_IS_MUT_PTR_kind 0
+#define cheese_IS_CONST_PTR_kind 0
+#define cheese_FIELDTYPE_is_melty bool
+#define cheese_IS_MUT_PTR_is_melty 0
+#define cheese_IS_CONST_PTR_is_melty 0
+
 // prexy struct bagel
 // {
 //     char name[10];
@@ -35,5 +42,15 @@
     F(simple_array, char, name, 10)                                            \
     F(simple, double, price)                                                   \
     F(struct_array, cheese, cheeses, 3)
+
+#define bagel_FIELDTYPE_name char *
+#define bagel_IS_MUT_PTR_name 0
+#define bagel_IS_CONST_PTR_name 0
+#define bagel_FIELDTYPE_price double
+#define bagel_IS_MUT_PTR_price 0
+#define bagel_IS_CONST_PTR_price 0
+#define bagel_FIELDTYPE_cheeses struct cheese *
+#define bagel_IS_MUT_PTR_cheeses 0
+#define bagel_IS_CONST_PTR_cheeses 0
 
 #endif

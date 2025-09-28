@@ -31,10 +31,26 @@
     F(fooattr, char const *, ptr, 0)                                           \
     F(simple, size_t, len)
 
+#define cstr_FIELDTYPE_buf char const *
+#define cstr_IS_MUT_PTR_buf 0
+#define cstr_IS_CONST_PTR_buf 1
+#define cstr_PTRTYPE_buf char
+#define cstr_FIELDTYPE_ptr char const *
+#define cstr_IS_MUT_PTR_ptr 0
+#define cstr_IS_CONST_PTR_ptr 1
+#define cstr_PTRTYPE_ptr char
+#define cstr_FIELDTYPE_len size_t
+#define cstr_IS_MUT_PTR_len 0
+#define cstr_IS_CONST_PTR_len 0
+
 // prexy struct messages
 // {
 //     struct cstr buf[6];
 // };
 #define messages_X(F) F(struct_array, cstr, buf, 6)
+
+#define messages_FIELDTYPE_buf struct cstr *
+#define messages_IS_MUT_PTR_buf 0
+#define messages_IS_CONST_PTR_buf 0
 
 #endif

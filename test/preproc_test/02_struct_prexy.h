@@ -16,6 +16,14 @@
     F(simple, int, i)                                                          \
     F(simple, char const *, str)
 
+#define simples_FIELDTYPE_i int
+#define simples_IS_MUT_PTR_i 0
+#define simples_IS_CONST_PTR_i 0
+#define simples_FIELDTYPE_str char const *
+#define simples_IS_MUT_PTR_str 0
+#define simples_IS_CONST_PTR_str 1
+#define simples_PTRTYPE_str char
+
 // prexy struct arrays
 // {
 //     int arr[5];
@@ -24,6 +32,13 @@
 #define arrays_X(F)                                                            \
     F(simple_array, int, arr, 5)                                               \
     F(simple_array, char const *, strings, 80)
+
+#define arrays_FIELDTYPE_arr int *
+#define arrays_IS_MUT_PTR_arr 0
+#define arrays_IS_CONST_PTR_arr 0
+#define arrays_FIELDTYPE_strings char const **
+#define arrays_IS_MUT_PTR_strings 0
+#define arrays_IS_CONST_PTR_strings 0
 
 // prexy enum nums {
 //     ONE,
@@ -43,6 +58,13 @@
     F(enum, nums, a_num)                                                       \
     F(enum_array, nums, nums, 3)
 
+#define enums_FIELDTYPE_a_num enum nums
+#define enums_IS_MUT_PTR_a_num 0
+#define enums_IS_CONST_PTR_a_num 0
+#define enums_FIELDTYPE_nums enum nums *
+#define enums_IS_MUT_PTR_nums 0
+#define enums_IS_CONST_PTR_nums 0
+
 // prexy struct nested
 // {
 //     struct simples head;
@@ -53,5 +75,16 @@
     F(struct, simples, head)                                                   \
     F(struct_array, simples, tail, 11)                                         \
     F(simple, struct simples *, simple_ref)
+
+#define nested_FIELDTYPE_head struct simples
+#define nested_IS_MUT_PTR_head 0
+#define nested_IS_CONST_PTR_head 0
+#define nested_FIELDTYPE_tail struct simples *
+#define nested_IS_MUT_PTR_tail 0
+#define nested_IS_CONST_PTR_tail 0
+#define nested_FIELDTYPE_simple_ref struct simples *
+#define nested_IS_MUT_PTR_simple_ref 1
+#define nested_IS_CONST_PTR_simple_ref 0
+#define nested_PTRTYPE_simple_ref struct simples
 
 #endif
