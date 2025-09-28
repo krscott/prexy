@@ -1,7 +1,9 @@
 #ifndef PREXY_H_
 #define PREXY_H_
 
+#ifndef PREXY_EXPAND
 #include <assert.h>
+#endif
 
 // Helper macros
 

@@ -1,9 +1,18 @@
 file(GLOB TEST_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.c")
 
+set(USE_HEADERS
+    "07_trait"
+)
+
 foreach(src IN LISTS TEST_SRCS)
     get_filename_component(name ${src} NAME_WE)   # filename without extension
 
-    set(c_path ${CMAKE_CURRENT_SOURCE_DIR}/${src})
+    if(name IN_LIST USE_HEADERS)
+        set(c_path ${CMAKE_CURRENT_SOURCE_DIR}/${name}.h)
+    else()
+        set(c_path ${CMAKE_CURRENT_SOURCE_DIR}/${src})
+    endif()
+
     set(h_path ${CMAKE_CURRENT_SOURCE_DIR}/${name}_prexy.h)
 
     # Dummy target so command is always run

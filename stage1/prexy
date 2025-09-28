@@ -16,14 +16,16 @@ Options:
     --header                Print prexy.h
     -o, --output PATH       Output file path
     -f, --formatter CMD     Formatter command (default: 'clang-format')
+    -E, --expand            Run expand-preprocessor codegen
+    -I, --include           Add include directory (used with -E)
     -h, --help              Display this help message.
     -v, --verbose           Enable debug messages
 EOF
 }
 
 # NOTE: Use ':' suffix to specify opt has an arg
-OPTIONS="o:f:hv"
-LONGOPTS="header,output:,formatter:,help,verbose"
+OPTIONS="o:f:EI:hv"
+LONGOPTS="header,output:,formatter:,expand,include:,help,verbose"
 POS_MIN=1
 POS_MAX=1
 
@@ -37,6 +39,9 @@ eval set -- "$PARSED"
 print_header=
 output=
 formatter=clang-format
+expand=
+include_args=(".")
+include_flags=()
 verbose=
 
 while true; do
@@ -55,6 +60,14 @@ while true; do
         ;;
     -f | --formatter)
         formatter="$1"
+        shift
+        ;;
+    -E | --expand)
+        expand=1
+        ;;
+    -I | --include)
+        include_args+=("$1")
+        include_flags+=("-I$1")
         shift
         ;;
     -h | --help)
@@ -91,6 +104,13 @@ if [[ $# -gt $POS_MAX ]]; then
     exit 2
 fi
 
+source_path="$1"
+
+if [[ ! -f $source_path ]]; then
+    echo "File '$source_path' does not exist"
+    exit 1
+fi
+
 debug() {
     if [[ -n $verbose ]]; then
         echo "$@" >&2
@@ -103,22 +123,55 @@ verbose() {
     fi
 }
 
-source_path="$1"
+find_include() {
+    for dir in "${include_args[@]}"; do
+        if [[ -f "$dir/$1" ]]; then
+            realpath "$dir/$1"
+            return
+        fi
+    done
 
-if [[ ! -f $source_path ]]; then
-    echo "File '$source_path' does not exist"
-    exit 1
-fi
+    echo "Could not find file: $1" >&2
+    exit 3
+}
 
-debug "Formatting '$source_path'"
+find_expanded_includes() {
+    local input
+    input=$(find_include "$1")
+
+    local includes
+    mapfile -t includes < <(awk -f "$DIR/find_expand_includes.awk" "$input")
+    for include in "${includes[@]}"; do
+        find_expanded_includes "$include"
+    done
+    echo "$input"
+}
+
+uniq_unsorted() {
+    awk '!seen[$0]++'
+}
+
+codegen() {
+    verbose
+
+    if [[ -n $expand ]]; then
+        mapfile -t sources < <(find_expanded_includes "$source_path" | uniq_unsorted)
+
+        for src in "${sources[@]}"; do
+            awk -f "$DIR/unexpand.awk" "$src"
+        done
+
+        echo ""
+
+        $CC -E -P "${include_flags[@]}" -DPREXY_EXPAND "$source_path"
+    else
+        debug "Formatting '$source_path'"
+        awk -f "$DIR/prexy.awk" "$source_path"
+    fi
+}
+
 if [[ -n $output ]]; then
-    (
-        verbose
-        awk -f "$DIR/prexy.awk" "$source_path" | $formatter >"$output"
-    )
+    codegen | $formatter >"$output"
 else
-    (
-        verbose
-        awk -f "$DIR/prexy.awk" "$source_path" | $formatter
-    )
+    codegen | $formatter
 fi

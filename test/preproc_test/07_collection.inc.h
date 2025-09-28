@@ -1,9 +1,12 @@
 
 #include "prexy.h"
 #include "prexy_define_struct.h"
+
+#ifndef PREXY_EXPAND
 #include <stdbool.h>
 #include <stddef.h>
 #include <string.h>
+#endif
 
 #ifndef collection
 // Default for IDE convenience

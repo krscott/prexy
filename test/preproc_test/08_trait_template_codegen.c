@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 
-#include "07_trait.h"
+#include "08_codegen.h"
 
 int main(void)
 {
