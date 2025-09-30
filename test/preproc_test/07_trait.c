@@ -45,5 +45,13 @@ int main(void)
         printf("%s\n", sv.ptr);
     }
 
+    {
+        struct cstr cstr = {"Null-terminated string"};
+
+        printf("cstr: ");
+        cstr_fprint_repr(stdout, &cstr);
+        printf("\n");
+    }
+
     return 0;
 }

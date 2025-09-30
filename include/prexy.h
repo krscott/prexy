@@ -8,6 +8,7 @@
 // Helper macros
 
 #define prexy_count(name) (name##_COUNT + (0 * sizeof((enum name)0)))
+#define prexy_get_attr(name, ...) ((struct name){__VA_ARGS__})
 
 #define PREXY_CONCAT(x, y) x##y
 #define PREXY_CONCAT3(x, y, z) x##y##z

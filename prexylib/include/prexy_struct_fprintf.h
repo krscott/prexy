@@ -2,8 +2,11 @@
 #define PREXY_STRUCT_FPRINTF_H_
 
 #include "prexy.h"
+
+#ifndef PREXY_EXPAND
 #include <assert.h>
 #include <stdio.h>
+#endif
 
 // Get printf format string for a type.
 // Does *not* assume a `char *` is a `%s`.
@@ -24,6 +27,12 @@
          char: "'%c'",                                                         \
          void *: "%p"                                                          \
     ))
+
+prexy_tag(prexy_repr_cstr);
+#define PREXY_STRUCT_FPRINT_REPR_prexy_repr_cstr(type, varname)                \
+    {                                                                          \
+        fprintf(stream, "." #varname " = \"%s\", ", (x)->varname);             \
+    }
 
 #define PREXY_STRUCT_FPRINT_REPR_simple(type, varname)                         \
     {                                                                          \

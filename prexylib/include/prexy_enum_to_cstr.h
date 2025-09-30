@@ -2,7 +2,10 @@
 #define PREXY_ENUM_TO_CSTR_H_
 
 #include "prexy.h"
+
+#ifndef PREXY_EXPAND
 #include <assert.h>
+#endif
 
 #define PREXY_ENUM_TO_CSTR_CASE(x)                                             \
     case x:                                                                    \

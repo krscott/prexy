@@ -1,2 +1,3 @@
 Futab!e string
 Immutable string
+cstr: (struct cstr){ .ptr = "Null-terminated string", }

@@ -1,8 +1,17 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
 
+struct prexy_repr_cstr
+{
+    char prexy_tag__;
+};
+struct prexy_struct_fprint_repr
+{
+    char prexy_namespace__;
+};
 struct str
 {
     char *ptr;
@@ -60,3 +69,31 @@ static inline bool strview_get(struct strview self, size_t i, char *out)
     }
     return ok;
 }
+
+struct cstr
+{
+    static_assert(sizeof((struct prexy_repr_cstr){.prexy_tag__ = '\0'}), "");
+    char const *ptr;
+};
+static void cstr_fprint_repr(FILE *stream, struct cstr const *x)
+{
+    fprintf(
+        stream,
+        "(struct "
+        "cstr"
+        "){ "
+    );
+    {
+        fprintf(
+            stream,
+            "."
+            "ptr"
+            " = \"%s\", ",
+            (x)->ptr
+        );
+    }
+    fprintf(stream, "}");
+}
+static_assert(
+    sizeof((struct prexy_struct_fprint_repr){.prexy_namespace__ = '\0'}), ""
+);

@@ -39,4 +39,18 @@
 #define strview_IS_MUT_PTR_len 0
 #define strview_IS_CONST_PTR_len 0
 
+// prexy struct cstr
+// {
+//     px_tag(prexy_repr_cstr);
+//     char const *ptr;
+// };
+#define cstr_X(F) F(simple, char const *, ptr)
+
+#define cstr_X_prexy_repr_cstr(F) F(prexy_repr_cstr, char const *, ptr)
+
+#define cstr_FIELDTYPE_ptr char const *
+#define cstr_IS_MUT_PTR_ptr 0
+#define cstr_IS_CONST_PTR_ptr 1
+#define cstr_PTRTYPE_ptr char
+
 #endif
