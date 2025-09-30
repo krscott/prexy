@@ -5,13 +5,26 @@
 #include <assert.h>
 #endif
 
-// Helper macros
+#define prexy
 
 #define prexy_count(name) (name##_COUNT + (0 * sizeof((enum name)0)))
-#define prexy_get_attr(name, ...) ((struct name){__VA_ARGS__})
 
 #define PREXY_CONCAT(x, y) x##y
 #define PREXY_CONCAT3(x, y, z) x##y##z
+
+#ifdef PREXY_EXPAND
+
+#define PREXY_ASSERT_IS_TAG(name) PREXY_EXPAND_REMOVE_SEMI
+#define PREXY_ASSERT_IS_NAMESPACE(name) PREXY_EXPAND_REMOVE_SEMI
+#define PREXY_ASSERT_IS_STRUCT(name) PREXY_EXPAND_REMOVE_SEMI
+
+#define prexy_tag(name) PREXY_EXPAND_REMOVE_SEMI
+#define prexy_namespace(name) PREXY_EXPAND_REMOVE_SEMI
+
+#define px_tag(name) PREXY_EXPAND_REMOVE_SEMI
+#define px_attr(name, ...) PREXY_EXPAND_REMOVE_SEMI
+
+#else
 
 #define PREXY_ASSERT_IS_TAG(name)                                              \
     static_assert(sizeof((struct name){.prexy_tag__ = '\0'}), "")
@@ -22,9 +35,6 @@
 // #define PREXY_ASSERT_IS_NONEMPTY_STRING(s)                                     \
 //     static_assert(sizeof("" s "") > 1, "")
 
-// Pre-processor marker macros
-
-#define prexy
 #define prexy_tag(name)                                                        \
     struct name                                                                \
     {                                                                          \
@@ -38,6 +48,10 @@
 
 #define px_tag(name) PREXY_ASSERT_IS_TAG(name)
 #define px_attr(name, ...) static_assert(sizeof((struct name){__VA_ARGS__}), "")
+
+#endif
+
+// Pre-processor marker macros
 
 // Struct function decl/impl macros
 

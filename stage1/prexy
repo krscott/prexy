@@ -158,6 +158,10 @@ uniq_unsorted() {
     awk '!seen[$0]++'
 }
 
+remove_expand_semi() {
+    awk '/^[[:space:]]*PREXY_EXPAND_REMOVE_SEMI;[[:space:]]*$/ { next } { gsub(/PREXY_EXPAND_REMOVE_SEMI;/, ""); print }'
+}
+
 codegen() {
     verbose
 
@@ -170,7 +174,7 @@ codegen() {
 
         echo ""
 
-        $CC -E -P "${include_flags[@]}" -DPREXY_EXPAND "$source_path"
+        $CC -E -P "${include_flags[@]}" -DPREXY_EXPAND "$source_path" | remove_expand_semi
     else
         debug "Formatting '$source_path'"
         awk -f "$DIR/prexy.awk" "$source_path"
