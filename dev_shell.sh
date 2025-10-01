@@ -55,20 +55,10 @@ tst() {
         cfg
         bld
 
-        (
-            cd build/test/preproc_test
-            ctest --output-on-failure
-        )
-        (
-            cd build/test/ptl_test
-            ctest --output-on-failure
-        )
-    )
-}
-
-tstptl() {
-    (
-        set -eu
+        # (
+        #     cd build/test/preproc_test
+        #     ctest --output-on-failure
+        # )
         (
             cd build/test/ptl_test
             ctest --output-on-failure

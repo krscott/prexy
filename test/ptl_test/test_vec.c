@@ -1,4 +1,3 @@
-#define PTL_VEC_IMPLEMENTATION
 #include "test_vec.h"
 #include "ptl_util.h"
 #include <assert.h>
@@ -11,17 +10,20 @@ static void test_intvec_push(void)
 
     ok = intvec_push(&vec, 111);
     assert(ok);
+    assert(vec.ptr[0] == 111);
 
     ok = intvec_push(&vec, 222);
     assert(ok);
+    assert(vec.ptr[1] == 222);
 
     ok = intvec_push(&vec, 333);
     assert(ok);
+    assert(vec.ptr[2] == 333);
 
     int expected[] = {111, 222, 333};
     assert(vec.len == ptl_countof(expected));
     assert(vec.cap >= ptl_countof(expected));
-    assert(memcmp(vec.ptr, expected, sizeof(expected)));
+    assert(0 == memcmp(vec.ptr, expected, sizeof(expected)));
 
     intvec_deinit(&vec);
 }
@@ -56,7 +58,7 @@ static void test_intvec_pushpop(void)
     int expected[] = {4, 7};
     assert(vec.len == ptl_countof(expected));
     assert(vec.cap >= ptl_countof(expected));
-    assert(memcmp(vec.ptr, expected, sizeof(expected)));
+    assert(0 == memcmp(vec.ptr, expected, sizeof(expected)));
 
     ok = intvec_pop(&vec, &elem);
     assert(ok);

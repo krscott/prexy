@@ -3,16 +3,17 @@ file(GLOB TEST_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.c")
 foreach(src IN LISTS TEST_SRCS)
     get_filename_component(name ${src} NAME_WE)   # filename without extension
 
-    set(src_h_path ${CMAKE_CURRENT_SOURCE_DIR}/${name}.h)
-    set(out_h_path ${CMAKE_CURRENT_SOURCE_DIR}/${name}_prexy.h)
+    set(template_path ${CMAKE_CURRENT_SOURCE_DIR}/${name}_template.h)
+    set(prexy_h_path ${CMAKE_CURRENT_SOURCE_DIR}/${name}_prexy.h)
+    set(codegen_path ${CMAKE_CURRENT_SOURCE_DIR}/${name}.h)
 
     # Dummy target so command is always run
-    add_custom_target(dummy_taget_${name} ALL DEPENDS ${out_h_path})
+    add_custom_target(dummy_taget_${name} ALL DEPENDS ${prexy_h_path})
 
     add_custom_command(
-        OUTPUT ${out_h_path}
-        COMMAND $ENV{PREXY} "${src_h_path}" -o "${out_h_path}"
-        DEPENDS ${src_h_path} always_rebuild
+        OUTPUT ${prexy_h_path}
+        COMMAND $ENV{PREXY} "${template_path}" -o "${prexy_h_path}"
+        DEPENDS ${template_path} always_rebuild
         VERBATIM
     )
 
@@ -22,11 +23,20 @@ foreach(src IN LISTS TEST_SRCS)
         COMMAND cmake -E echo
     )
 
-    add_executable(${name} ${src} ${out_h_path})
+    add_custom_command(
+        OUTPUT ${codegen_path}
+        COMMAND $ENV{PREXY} -E
+            -I${CMAKE_SOURCE_DIR}/include
+            -I${CMAKE_SOURCE_DIR}/ptl/include
+            -I${CMAKE_CURRENT_SOURCE_DIR}
+            ${template_path}
+            -o ${codegen_path}
+        DEPENDS ${template_path} ${prexy_h_path}
+        VERBATIM
+    )
 
-    # target_link_libraries(${name} PRIVATE mylib)
+    add_executable(${name} ${src} ${prexy_h_path} ${codegen_path})
 
-    # Header only tests
     include_directories(${CMAKE_SOURCE_DIR}/include)
     include_directories(${CMAKE_SOURCE_DIR}/ptl/include)
 

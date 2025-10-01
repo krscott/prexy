@@ -52,8 +52,6 @@ foreach(src IN LISTS TEST_SRCS)
 
     add_executable(${name} ${src} ${h_path})
 
-    # target_link_libraries(${name} PRIVATE mylib)
-
     include_directories(${CMAKE_SOURCE_DIR}/include)
 
     add_test(NAME ${name} COMMAND ${CMAKE_SOURCE_DIR}/test/test_runner.sh ${name} ${CMAKE_CURRENT_SOURCE_DIR})

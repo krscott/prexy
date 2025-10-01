@@ -8,6 +8,12 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "options": {
+                "env": {
+                    "CMAKE_BUILD_TYPE": "Debug",
+                    "DISABLE_OPTIMIZATIONS": "1"
+                }
             }
         }
     ]

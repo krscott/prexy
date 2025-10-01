@@ -160,9 +160,17 @@ alloc_fn prexy_methodname(ptl_vec, push)(
 )
 {
 #ifdef PTL_VEC_INFALLIBLE
-    prexy_methodname(ptl_vec, append)(vec, &elem, 1);
+    // prexy_methodname(ptl_vec, append)(vec, &elem, 1);
+    prexy_methodname(ptl_vec, reserve)(vec, 1);
+    vec->ptr[vec->len++] = elem;
 #else
-    return prexy_methodname(ptl_vec, append)(vec, &elem, 1);
+    // return prexy_methodname(ptl_vec, append)(vec, &elem, 1);
+    bool const success = prexy_methodname(ptl_vec, reserve)(vec, 1);
+    if (success)
+    {
+        vec->ptr[vec->len++] = elem;
+    }
+    return success;
 #endif
 }
 
@@ -171,12 +179,10 @@ nodiscard bool prexy_methodname(ptl_vec, pop)(
 )
 {
     bool const success = vec->len > 0;
-
     if (success)
     {
         *out = vec->ptr[--vec->len];
     }
-
     return success;
 }
 

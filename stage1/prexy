@@ -159,7 +159,7 @@ uniq_unsorted() {
 }
 
 remove_expand_semi() {
-    awk '/^[[:space:]]*PREXY_EXPAND_REMOVE_SEMI;[[:space:]]*$/ { next } { gsub(/PREXY_EXPAND_REMOVE_SEMI;/, ""); print }'
+    awk '/^[[:space:]]+PREXY_EXPAND_REMOVE_SEMI;[[:space:]]*$/ { next } { gsub(/PREXY_EXPAND_REMOVE_SEMI;/, ""); print }'
 }
 
 codegen() {
