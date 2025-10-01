@@ -60,7 +60,7 @@ tst() {
             ctest --output-on-failure
         )
         (
-            cd build/test/lib_test
+            cd build/test/ptl_test
             ctest --output-on-failure
         )
     )
@@ -87,7 +87,7 @@ setup_vscode() {
 }
 
 format() {
-    for dir in "src" "test" "include" "prexylib"; do
+    for dir in "src" "test" "include" "ptl"; do
         find "$dir" -type f -name '*.c' -exec clang-format -i {} +
         find "$dir" -type f -name '*.h' -exec clang-format -i {} +
     done
