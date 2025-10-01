@@ -1,7 +1,11 @@
-#include "test_vec.h"
+#ifndef PREXY_EXPAND
 #include "ptl_util.h"
 #include <assert.h>
 #include <string.h>
+#endif
+
+#define PTL_VEC_IMPLEMENTATION
+#include "test_vec.h"
 
 static void test_intvec_push(void)
 {
