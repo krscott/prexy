@@ -41,11 +41,11 @@ struct develop_vec
 
 void prexy_methodname(ptl_vec, deinit)(struct ptl_vec *vec);
 alloc_fn prexy_methodname(ptl_vec, reserve)( //
-    struct ptl_vec *const vec,
+    struct ptl_vec *vec,
     size_t const n
 );
 alloc_fn prexy_methodname(ptl_vec, append)(
-    struct ptl_vec *const vec,
+    struct ptl_vec *vec,
     prexy_ptr_typeof(ptl_vec, ptr) const *arr,
     size_t const n
 );
@@ -130,14 +130,17 @@ alloc_fn prexy_methodname(ptl_vec, reserve)( //
 
 alloc_fn prexy_methodname(ptl_vec, append)(
     struct ptl_vec *const vec,
-    prexy_ptr_typeof(ptl_vec, ptr) const *arr,
+    prexy_ptr_typeof(ptl_vec, ptr) const *const arr,
     size_t const n
 )
 {
 #ifdef PTL_VEC_INFALLIBLE
 
     prexy_methodname(ptl_vec, reserve)(vec, n);
-    memmove(&vec->ptr[vec->len], arr, n);
+    for (size_t i = 0; i < n; ++i)
+    {
+        vec->ptr[vec->len + i] = arr[i];
+    }
     vec->len += n;
 
 #else
@@ -146,7 +149,10 @@ alloc_fn prexy_methodname(ptl_vec, append)(
 
     if (success)
     {
-        memmove(&vec->ptr[vec->len], arr, n);
+        for (size_t i = 0; i < n; ++i)
+        {
+            vec->ptr[vec->len + i] = arr[i];
+        }
         vec->len += n;
     }
 
@@ -160,11 +166,9 @@ alloc_fn prexy_methodname(ptl_vec, push)(
 )
 {
 #ifdef PTL_VEC_INFALLIBLE
-    // prexy_methodname(ptl_vec, append)(vec, &elem, 1);
     prexy_methodname(ptl_vec, reserve)(vec, 1);
     vec->ptr[vec->len++] = elem;
 #else
-    // return prexy_methodname(ptl_vec, append)(vec, &elem, 1);
     bool const success = prexy_methodname(ptl_vec, reserve)(vec, 1);
     if (success)
     {

@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -14,9 +15,9 @@ struct intvec
     size_t cap;
 };
 void intvec_deinit(struct intvec *vec);
-nodiscard bool intvec_reserve(struct intvec *const vec, size_t const n);
+nodiscard bool intvec_reserve(struct intvec *vec, size_t const n);
 nodiscard bool
-intvec_append(struct intvec *const vec, int const *arr, size_t const n);
+intvec_append(struct intvec *vec, int const *arr, size_t const n);
 nodiscard bool intvec_push(struct intvec *vec, int elem);
 nodiscard bool intvec_pop(struct intvec *vec, int *out);
 void intvec_deinit(struct intvec *const vec) { free(vec->ptr); }
@@ -55,12 +56,15 @@ nodiscard bool intvec_reserve(struct intvec *const vec, size_t const n)
     return success;
 }
 nodiscard bool
-intvec_append(struct intvec *const vec, int const *arr, size_t const n)
+intvec_append(struct intvec *const vec, int const *const arr, size_t const n)
 {
     bool const success = intvec_reserve(vec, n);
     if (success)
     {
-        memmove(&vec->ptr[vec->len], arr, n);
+        for (size_t i = 0; i < n; ++i)
+        {
+            vec->ptr[vec->len + i] = arr[i];
+        }
         vec->len += n;
     }
     return success;
@@ -103,7 +107,7 @@ static void test_intvec_push(void)
     assert(0 == memcmp(vec.ptr, expected, sizeof(expected)));
     intvec_deinit(&vec);
 }
-static void test_intvec_pushpop(void)
+static void test_intvec_pop(void)
 {
     struct intvec vec = {0};
     bool ok;
@@ -143,9 +147,33 @@ static void test_intvec_pushpop(void)
     assert(vec.len == 0);
     intvec_deinit(&vec);
 }
+static void test_intvec_append(void)
+{
+    struct intvec vec = {0};
+    bool ok;
+    {
+        int arr1[] = {997, 998, 999};
+        ok = intvec_append(&vec, arr1, ptl_countof(arr1));
+        assert(ok);
+        assert(vec.len == ptl_countof(arr1));
+        assert(vec.cap >= ptl_countof(arr1));
+        assert(0 == memcmp(vec.ptr, arr1, sizeof(arr1)));
+    }
+    {
+        int arr2[] = {1000, 1001, 1002};
+        int expected[] = {997, 998, 999, 1000, 1001, 1002};
+        ok = intvec_append(&vec, arr2, ptl_countof(arr2));
+        assert(ok);
+        assert(vec.len == ptl_countof(expected));
+        assert(vec.cap >= ptl_countof(expected));
+        assert(0 == memcmp(vec.ptr, expected, sizeof(expected)));
+    }
+    intvec_deinit(&vec);
+}
 int main(void)
 {
     test_intvec_push();
-    test_intvec_pushpop();
+    test_intvec_pop();
+    test_intvec_append();
     return 0;
 }
