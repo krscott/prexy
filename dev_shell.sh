@@ -66,6 +66,16 @@ tst() {
     )
 }
 
+tstptl() {
+    (
+        set -eu
+        (
+            cd build/test/ptl_test
+            ctest --output-on-failure
+        )
+    )
+}
+
 release() {
     unset DISABLE_OPTIMZATIONS
     unset CMAKE_BUILD_TYPE
