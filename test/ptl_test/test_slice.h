@@ -14,7 +14,9 @@ prexy struct str
     size_t len;
 };
 #define ptl_slice str
+#ifdef PTL_SLICE_IMPLEMENTATION
 static int char_cmp(char a, char b) { return (int)a - (int)b; }
+#endif
 #define ptl_slice_cmp char_cmp
 #include "ptl_slice.inc.h"
 
