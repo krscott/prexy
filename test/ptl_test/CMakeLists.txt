@@ -25,13 +25,6 @@ foreach(src IN LISTS TEST_SRCS)
         COMMAND cmake -E echo
     )
 
-    # Normal test
-
-    add_executable(${name} ${src} ${prexy_h_path})
-    include_directories(${CMAKE_SOURCE_DIR}/include)
-    include_directories(${CMAKE_SOURCE_DIR}/ptl/include)
-    add_test(NAME ${name} COMMAND ${CMAKE_SOURCE_DIR}/test/test_runner.sh ${name} ${CMAKE_CURRENT_SOURCE_DIR})
-
     # Expanded codegen test
 
     add_custom_command(
@@ -50,4 +43,12 @@ foreach(src IN LISTS TEST_SRCS)
     include_directories(${CMAKE_SOURCE_DIR}/include)
     include_directories(${CMAKE_SOURCE_DIR}/ptl/include)
     add_test(NAME ${codegen_name} COMMAND ${CMAKE_SOURCE_DIR}/test/test_runner.sh ${codegen_name} ${CMAKE_CURRENT_SOURCE_DIR})
+
+    # Normal test
+
+    add_executable(${name} ${src} ${prexy_h_path})
+    include_directories(${CMAKE_SOURCE_DIR}/include)
+    include_directories(${CMAKE_SOURCE_DIR}/ptl/include)
+    add_test(NAME ${name} COMMAND ${CMAKE_SOURCE_DIR}/test/test_runner.sh ${name} ${CMAKE_CURRENT_SOURCE_DIR})
+
 endforeach()

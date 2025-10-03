@@ -9,8 +9,10 @@
 
 #define prexy_count(name) (name##_COUNT + (0 * sizeof((enum name)0)))
 
-#define PREXY_CONCAT(x, y) x##y
-#define PREXY_CONCAT3(x, y, z) x##y##z
+#define PREXY_CONCAT(a, b) a##b
+#define PREXY_CONCAT3(a, b, c) a##b##c
+#define PREXY_CONCAT4(a, b, c, d) a##b##c##d
+#define PREXY_CONCAT5(a, b, c, d, e) a##b##c##d##e
 
 #ifdef PREXY_EXPAND
 
@@ -89,5 +91,7 @@
 
 #define prexy_methodname(struct_name, fn_name)                                 \
     PREXY_CONCAT3(struct_name, _, fn_name)
+#define prexy_methodname3(struct_name1, fn_name, struct_name2)                 \
+    PREXY_CONCAT5(struct_name1, _, fn_name, _, struct_name2)
 
 #endif
