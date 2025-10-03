@@ -71,12 +71,12 @@ nodiscard bool prexy_methodname(ptl_vec, pop)(
 );
 
 #ifdef ptl_vec_slice
-struct ptl_vec_slice
+nodiscard struct ptl_vec_slice
     prexy_methodname(ptl_vec, as_slice)(struct ptl_vec const *vec);
 #endif
 #ifdef ptl_vec_view
-struct ptl_vec_view prexy_methodname(ptl_vec, as_view)(struct ptl_vec const *vec
-);
+nodiscard struct ptl_vec_view
+    prexy_methodname(ptl_vec, as_view)(struct ptl_vec const *vec);
 #endif
 
 #ifdef PTL_VEC_IMPLEMENTATION
@@ -211,8 +211,9 @@ nodiscard bool prexy_methodname(ptl_vec, pop)(
 }
 
 #ifdef ptl_vec_slice
-struct ptl_vec_slice
-prexy_methodname(ptl_vec, as_slice)(struct ptl_vec const *const vec)
+nodiscard struct ptl_vec_slice prexy_methodname(ptl_vec, as_slice)( //
+    struct ptl_vec const *const vec
+)
 {
     return (struct ptl_vec_slice){
         .ptr = vec->ptr,
@@ -222,8 +223,9 @@ prexy_methodname(ptl_vec, as_slice)(struct ptl_vec const *const vec)
 #endif
 
 #ifdef ptl_vec_view
-struct ptl_vec_view
-prexy_methodname(ptl_vec, as_view)(struct ptl_vec const *const vec)
+nodiscard struct ptl_vec_view prexy_methodname(ptl_vec, as_view)( //
+    struct ptl_vec const *const vec
+)
 {
     return (struct ptl_vec_view){
         .ptr = vec->ptr,
