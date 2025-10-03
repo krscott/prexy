@@ -236,6 +236,14 @@ nodiscard struct ptl_vec_view prexy_methodname(ptl_vec, as_view)( //
 
 #endif
 
+#ifdef ptl_vec_slice
+#undef ptl_vec_slice
+#endif
+
+#ifdef ptl_vec_view
+#undef ptl_vec_view
+#endif
+
 #undef ptl_vec_free
 #undef ptl_vec_realloc
 #undef ptl_vec
