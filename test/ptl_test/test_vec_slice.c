@@ -35,7 +35,7 @@ static void test_vec_as_slice(void)
     intvec_deinit(&vec);
 }
 
-static void test_vec_as_view(void)
+static void test_vec_as_slice_const_ptr(void)
 {
     struct intvec vec = {0};
 
@@ -58,6 +58,6 @@ static void test_vec_as_view(void)
 int main(void)
 {
     test_vec_as_slice();
-    test_vec_as_view();
+    test_vec_as_slice_const_ptr();
     return 0;
 }
