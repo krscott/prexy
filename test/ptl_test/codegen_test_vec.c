@@ -170,10 +170,32 @@ static void test_intvec_append(void)
     }
     intvec_deinit(&vec);
 }
+static void test_intvec_realloc(void)
+{
+    struct intvec vec = {0};
+    int const SIZE = 10000;
+    int i = 0;
+    for (; i < SIZE; ++i)
+    {
+        bool const ok = intvec_push(&vec, i);
+        assert(ok);
+    }
+    assert(vec.len == SIZE);
+    for (; i > 0; --i)
+    {
+        int x = -1;
+        bool const ok = intvec_pop(&vec, &x);
+        assert(ok);
+        assert(x == i - 1);
+    }
+    assert(vec.len == 0);
+    intvec_deinit(&vec);
+}
 int main(void)
 {
     test_intvec_push();
     test_intvec_pop();
     test_intvec_append();
+    test_intvec_realloc();
     return 0;
 }
