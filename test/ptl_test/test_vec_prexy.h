@@ -27,4 +27,38 @@
 #define intvec_IS_MUT_PTR_cap 0
 #define intvec_IS_CONST_PTR_cap 0
 
+// prexy struct intslice
+// {
+//     int *ptr;
+//     size_t len;
+// };
+#define intslice_X(F)                                                          \
+    F(simple, int *, ptr)                                                      \
+    F(simple, size_t, len)
+
+#define intslice_FIELDTYPE_ptr int *
+#define intslice_IS_MUT_PTR_ptr 1
+#define intslice_IS_CONST_PTR_ptr 0
+#define intslice_PTRTYPE_ptr int
+#define intslice_FIELDTYPE_len size_t
+#define intslice_IS_MUT_PTR_len 0
+#define intslice_IS_CONST_PTR_len 0
+
+// prexy struct intview
+// {
+//     int const *ptr;
+//     size_t len;
+// };
+#define intview_X(F)                                                           \
+    F(simple, int const *, ptr)                                                \
+    F(simple, size_t, len)
+
+#define intview_FIELDTYPE_ptr int const *
+#define intview_IS_MUT_PTR_ptr 0
+#define intview_IS_CONST_PTR_ptr 1
+#define intview_PTRTYPE_ptr int
+#define intview_FIELDTYPE_len size_t
+#define intview_IS_MUT_PTR_len 0
+#define intview_IS_CONST_PTR_len 0
+
 #endif

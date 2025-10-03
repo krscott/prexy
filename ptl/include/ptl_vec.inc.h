@@ -21,8 +21,22 @@ struct develop_vec
 };
 #define ptl_vec develop_vec
 #define develop_vec_PTRTYPE_ptr int
+
+struct develop_slice
+{
+    int *ptr;
+    size_t len;
+};
+#define ptl_vec_slice develop_slice
+
+struct develop_view
+{
+    int const *ptr;
+    size_t len;
+};
+#define ptl_vec_view develop_view
+
 #define PTL_VEC_IMPLEMENTATION
-// #define PTL_VEC_INFALLIBLE
 #endif
 
 #ifndef ptl_vec_realloc
@@ -56,7 +70,17 @@ nodiscard bool prexy_methodname(ptl_vec, pop)(
     struct ptl_vec *vec, prexy_ptr_typeof(ptl_vec, ptr) * out
 );
 
+#ifdef ptl_vec_slice
+struct ptl_vec_slice prexy_methodname(ptl_vec, as_slice)(struct ptl_vec *vec);
+#endif
+#ifdef ptl_vec_view
+struct ptl_vec_view prexy_methodname(ptl_vec, as_view)(struct ptl_vec *vec);
+#endif
+
 #ifdef PTL_VEC_IMPLEMENTATION
+/******************
+ * Implementation *
+ ******************/
 
 #ifndef GROW_NUMERATOR
 #ifdef GROW_DENOMINATOR
@@ -183,6 +207,26 @@ nodiscard bool prexy_methodname(ptl_vec, pop)(
     }
     return success;
 }
+
+#ifdef ptl_vec_slice
+struct ptl_vec_slice prexy_methodname(ptl_vec, as_slice)(struct ptl_vec *vec)
+{
+    return (struct ptl_vec_slice){
+        .ptr = vec->ptr,
+        .len = vec->len,
+    };
+}
+#endif
+
+#ifdef ptl_vec_view
+struct ptl_vec_view prexy_methodname(ptl_vec, as_view)(struct ptl_vec *vec)
+{
+    return (struct ptl_vec_view){
+        .ptr = vec->ptr,
+        .len = vec->len,
+    };
+}
+#endif
 
 #endif
 
