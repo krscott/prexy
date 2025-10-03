@@ -61,10 +61,7 @@ intvec_append(struct intvec *const vec, int const *const arr, size_t const n)
     bool const success = intvec_reserve(vec, n);
     if (success)
     {
-        for (size_t i = 0; i < n; ++i)
-        {
-            vec->ptr[vec->len + i] = arr[i];
-        }
+        memmove(&vec->ptr[vec->len], arr, sizeof(vec->ptr[0]) * n);
         vec->len += n;
     }
     return success;

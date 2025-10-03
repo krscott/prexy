@@ -137,10 +137,7 @@ alloc_fn prexy_methodname(ptl_vec, append)(
 #ifdef PTL_VEC_INFALLIBLE
 
     prexy_methodname(ptl_vec, reserve)(vec, n);
-    for (size_t i = 0; i < n; ++i)
-    {
-        vec->ptr[vec->len + i] = arr[i];
-    }
+    memmove(&vec->ptr[vec->len], arr, sizeof(vec->ptr[0]) * n);
     vec->len += n;
 
 #else
@@ -149,10 +146,7 @@ alloc_fn prexy_methodname(ptl_vec, append)(
 
     if (success)
     {
-        for (size_t i = 0; i < n; ++i)
-        {
-            vec->ptr[vec->len + i] = arr[i];
-        }
+        memmove(&vec->ptr[vec->len], arr, sizeof(vec->ptr[0]) * n);
         vec->len += n;
     }
 
