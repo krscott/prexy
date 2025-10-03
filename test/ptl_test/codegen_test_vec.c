@@ -30,8 +30,8 @@ nodiscard bool
 intvec_append(struct intvec *vec, int const *arr, size_t const n);
 nodiscard bool intvec_push(struct intvec *vec, int elem);
 nodiscard bool intvec_pop(struct intvec *vec, int *out);
-struct intslice intvec_as_slice(struct intvec *vec);
-struct intview intvec_as_view(struct intvec *vec);
+struct intslice intvec_as_slice(struct intvec const *vec);
+struct intview intvec_as_view(struct intvec const *vec);
 void intvec_deinit(struct intvec *const vec) { free(vec->ptr); }
 nodiscard bool intvec_reserve(struct intvec *const vec, size_t const n)
 {
@@ -96,14 +96,14 @@ nodiscard bool intvec_pop(struct intvec *const vec, int *const out)
     }
     return success;
 }
-struct intslice intvec_as_slice(struct intvec *vec)
+struct intslice intvec_as_slice(struct intvec const *const vec)
 {
     return (struct intslice){
         .ptr = vec->ptr,
         .len = vec->len,
     };
 }
-struct intview intvec_as_view(struct intvec *vec)
+struct intview intvec_as_view(struct intvec const *const vec)
 {
     return (struct intview){
         .ptr = vec->ptr,
