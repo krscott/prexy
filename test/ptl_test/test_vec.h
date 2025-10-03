@@ -14,19 +14,7 @@ prexy struct intvec
     size_t len;
     size_t cap;
 };
-prexy struct intslice
-{
-    int *ptr;
-    size_t len;
-};
-prexy struct intview
-{
-    int const *ptr;
-    size_t len;
-};
 #define ptl_vec intvec
-#define ptl_vec_slice intslice
-#define ptl_vec_view intview
 #include "ptl_vec.inc.h"
 
 #endif

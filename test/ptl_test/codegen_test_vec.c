@@ -14,24 +14,12 @@ struct intvec
     size_t len;
     size_t cap;
 };
-struct intslice
-{
-    int *ptr;
-    size_t len;
-};
-struct intview
-{
-    int const *ptr;
-    size_t len;
-};
 void intvec_deinit(struct intvec *vec);
 nodiscard bool intvec_reserve(struct intvec *vec, size_t const n);
 nodiscard bool
 intvec_append(struct intvec *vec, int const *arr, size_t const n);
 nodiscard bool intvec_push(struct intvec *vec, int elem);
 nodiscard bool intvec_pop(struct intvec *vec, int *out);
-nodiscard struct intslice intvec_as_slice(struct intvec const *vec);
-nodiscard struct intview intvec_as_view(struct intvec const *vec);
 void intvec_deinit(struct intvec *const vec) { free(vec->ptr); }
 nodiscard bool intvec_reserve(struct intvec *const vec, size_t const n)
 {
@@ -95,20 +83,6 @@ nodiscard bool intvec_pop(struct intvec *const vec, int *const out)
         *out = vec->ptr[--vec->len];
     }
     return success;
-}
-nodiscard struct intslice intvec_as_slice(struct intvec const *const vec)
-{
-    return (struct intslice){
-        .ptr = vec->ptr,
-        .len = vec->len,
-    };
-}
-nodiscard struct intview intvec_as_view(struct intvec const *const vec)
-{
-    return (struct intview){
-        .ptr = vec->ptr,
-        .len = vec->len,
-    };
 }
 
 static void test_intvec_push(void)
@@ -214,50 +188,11 @@ static void test_intvec_realloc(void)
     assert(vec.len == 0);
     intvec_deinit(&vec);
 }
-static void test_vec_as_slice(void)
-{
-    struct intvec vec = {0};
-    for (int i = 0; i < 100; ++i)
-    {
-        bool const ok = intvec_push(&vec, i + 100);
-        assert(ok);
-    }
-    struct intslice slice = intvec_as_slice(&vec);
-    assert(slice.len == vec.len);
-    for (int i = 0; i < 100; ++i)
-    {
-        assert(slice.ptr[i] == i + 100);
-        slice.ptr[i] += 100;
-    }
-    for (int i = 0; i < 100; ++i)
-    {
-        assert(vec.ptr[i] == i + 200);
-    }
-    intvec_deinit(&vec);
-}
-static void test_vec_as_view(void)
-{
-    struct intvec vec = {0};
-    for (int i = 0; i < 100; ++i)
-    {
-        bool const ok = intvec_push(&vec, i + 100);
-        assert(ok);
-    }
-    struct intview view = intvec_as_view(&vec);
-    assert(view.len == vec.len);
-    for (int i = 0; i < 100; ++i)
-    {
-        assert(view.ptr[i] == i + 100);
-    }
-    intvec_deinit(&vec);
-}
 int main(void)
 {
     test_intvec_push();
     test_intvec_pop();
     test_intvec_append();
     test_intvec_realloc();
-    test_vec_as_slice();
-    test_vec_as_view();
     return 0;
 }
