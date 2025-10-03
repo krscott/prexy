@@ -1,5 +1,5 @@
-#ifndef TEST_VEC_H_
-#define TEST_VEC_H_
+#ifndef TEST_VEC_SLICE_H_
+#define TEST_VEC_SLICE_H_
 
 #ifndef PREXY_EXPAND
 #include <stddef.h>
